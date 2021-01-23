@@ -1,0 +1,158 @@
+main {
+  min-height: 80vh;
+}
+/* FocusScreen  */
+/* ShortBreakScreen */
+/* LongBreakScreen */
+/* LazyBreakScreen */
+/* SettingsEditScreen */
+/* ReportCardScreen */
+.timecard-title {
+  color: #022b36;
+  font-size: 1.6rem;
+}
+.card-title {
+  font-size: 2rem;
+  font-weight: lighter;
+  color: #022b36;
+}
+.card-settings, .card-focus, .card-shortbreak, .card-longbreak, .card-lazybreak, .card-reportcard {
+  border-radius: 10px;
+}
+.timer {
+  font-size: 4rem;
+  font-weight: bolder;
+  margin-bottom: 0;
+}
+.progress {
+  margin-bottom: 2rem;
+}
+.rounds-header, .goal-header {
+  color: #022b36;
+}
+.rounds-progress, .goal-progress {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+.denominator-focus {
+  color: #8c7522;
+  font-weight: bolder;
+  text-shadow: 1px 1px 1px #022b36;
+}
+.denominator-long {
+  color: #022b36;
+  font-weight: bolder;
+}
+
+.list-group-item {
+  border: none !important;
+  font-size: 1.5rem;
+  color: #022b36;
+}
+.btn-next-exercise {
+    color: #022b36;
+    transition: all 0.5s ease;
+    align-self: flex-end;
+    box-shadow: none !important;
+}
+.btn-next-exercise:hover {
+  font-size: 1.1rem;
+  color:#022b36;
+  text-decoration: none;
+}
+.btn {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.icon-report {
+  position: relative;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,-20%)
+}
+.icon-report-heart {
+  color: #d33781;
+  text-shadow: 1px 1px 1px #022b36;
+}
+.icon-report-brain {
+  color: #fdf7e5;
+  text-shadow: 1px 1px 1px #022b36;
+}
+.icon-report-goal {
+  color: #b58904;
+  text-shadow: 1px 1px 1px #022b36;
+}
+  .icon-report {
+    font-size: 3.5rem;
+    padding-top: 1rem;
+  }
+  .card-report-top {
+  padding-top: 3rem !important;
+}
+  .report-progress-bar {
+    margin-bottom: 3rem !important;
+  }
+
+
+@media(min-width: 768px) {
+  .card {
+    max-width: 600px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .timecard-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media(max-width: 576px) {
+  .card {
+    margin: 0 !important;
+  }
+  .card-body {
+    padding: 1rem !important;
+  }
+  .card-focus, .card-shortbreak {
+    max-width: 475px;
+    min-width: 250px;
+  }
+  h1{
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    padding: 0 !important;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  label {
+    font-size: 1rem !important;
+  }
+  .p-5, .px-5 {
+    padding: 1rem !important;
+  }
+  .py-3 {
+    padding: 1rem !important;
+  }
+  .rounds-progress, .goal-progress {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+  }
+  .rounds-header, .goal-header {
+    padding: .5rem;
+  }
+  .btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto !important;
+    width: 100%;
+  }
+  .card-progress-report {
+    padding-top: 0 !important;
+  }
+  .icon-report {
+    font-size: 3rem;
+    padding-top: 1rem;
+  }
+}
