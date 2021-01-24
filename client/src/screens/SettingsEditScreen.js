@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import settings from '../settings'
+import NavCard from '../components/NavCard'
 
 const SettingsEditScreen = () => {
 	const previousSetting = settings[0]
@@ -32,6 +33,9 @@ const SettingsEditScreen = () => {
 	return (
 		<FormContainer>
 			<Card className='card card-settings text-white bg-secondary m-4'>
+				<Card.Header className='text-center card-header p-3'>
+					<NavCard />
+				</Card.Header>
 				<Card.Header className='text-center card-header px-5 py-3'>
 					<h1>
 						<i className='fas fa-cog px-4' />Settings<i className='fas fa-cog px-4' />
@@ -114,7 +118,7 @@ const SettingsEditScreen = () => {
 							<option>20</option>
 						</Form.Control>
 					</Form.Group>
-					<Button variant='primary' type='submit'>
+					<Button variant='primary' type='submit' className='btn-submit'>
 						Submit
 					</Button>
 				</Form>

@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
-import Header from './components/Header'
+//import Header from './components/NavCard'
 import SettingsEditScreen from './screens/SettingsEditScreen'
 import FocusScreen from './screens/FocusScreen'
 import ShortBreakScreen from './screens/ShortBreakScreen'
@@ -13,7 +13,6 @@ import ReportCardScreen from './screens/ReportCardScreen'
 const App = () => {
 	return (
 		<Router>
-			<Header />
 			<main className='py-3'>
 				<Container className='container'>
 					<Route path='/' component={SettingsEditScreen} exact />

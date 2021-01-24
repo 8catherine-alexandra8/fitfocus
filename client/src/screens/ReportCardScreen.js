@@ -1,15 +1,19 @@
 import React from 'react'
 import { Button, Card, ProgressBar, Row, Col } from 'react-bootstrap'
+import NavCard from '../components/NavCard'
 
 const ReportCardScreen = () => {
 	return (
 		<Card className='card card-reportcard border-secondary m-4'>
 			<Card.Header className='text-center card-header p-3'>
+				<NavCard />
+			</Card.Header>
+			<Card.Header className='text-center card-header p-3'>
 				<h1>
 					<i
-						className='fas fa-hand-sparkles px-4'
+						className='fas fa-hand-sparkles icon-report-high5 px-4'
 						style={{ transform: 'scaleX(-1)' }}
-					/>Nice Work!<i className='fas fa-hand-sparkles px-4' />
+					/>Nice Work!<i className='fas fa-hand-sparkles icon-report-high5 px-4' />
 				</h1>
 			</Card.Header>
 			<Card.Body className='p-4 card-report-top'>
