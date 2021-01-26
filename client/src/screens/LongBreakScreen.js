@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, ProgressBar, Row, Col } from 'react-bootstrap'
+import { Card, ProgressBar } from 'react-bootstrap'
 import NavCard from '../components/NavCard'
 import Tracker from '../components/Tracker'
 import Controls from '../components/Controls'

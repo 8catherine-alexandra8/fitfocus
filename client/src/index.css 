@@ -20,10 +20,25 @@ main {
   margin-bottom: 3rem;
 }
 
-/* FocusScreen and ShortBreakScreen */
-.timecard-title {
-  color: #022b36;
-  font-size: 1.6rem;
+/* SplashScreen */
+.splash-card-text-container {
+  margin: 2rem 0rem;
+}
+.splash-card-text {
+  font-size: 3rem;
+  color: #fdf7e5;
+}
+.splash-img {
+  margin: 20px 10px 40px 10px;
+}
+.splash-card-footer {
+  margin-top: 4rem;
+}
+.splash-footer-text {
+  margin-bottom: 0;
+}
+.hide {
+  overflow: hidden;
 }
 
 /* FocusScreen  */
@@ -31,8 +46,16 @@ main {
   color: #88989a;
   text-shadow: 1px 1px 1px #022b36;
 }
+.timecard-title-focus {
+  color: #022b36;
+  font-size: 2rem;
+}
 
 /* ShortBreakScreen */
+.timecard-title {
+  color: #022b36;
+  font-size: 1.6rem;
+}
 .icon-break-heart {
   color: #d33781;
   text-shadow: 1px 1px 1px #022b36;
@@ -74,8 +97,8 @@ main {
 
 /* SettingsEditScreen */
 .btn-submit {
-  border: none;
-  border-radius: 5px;
+  border: none !important;
+  border-radius: 5px !important;
 }
 .icon-nav {
   font-size: 1.3rem;
@@ -199,6 +222,9 @@ hr {
   .icon-report {
     font-size: 3rem;
     padding-top: 1rem;
+  }
+  .icon-focus-brain, .icon-break-heart {
+    padding: 0 5px !important;
   }
 }
 

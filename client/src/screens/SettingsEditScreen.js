@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import settings from '../settings'
 import NavCard from '../components/NavCard'
 
 const SettingsEditScreen = () => {
+	const history = useHistory()
 	const previousSetting = settings[0]
 	const today = new Date().toLocaleDateString('en-US')
 
@@ -20,12 +23,23 @@ const SettingsEditScreen = () => {
 	const [ focusGoal, setFocusGoal ] = useState(
 		previousSetting.focus.completedIntervalGoal
 	)
+	// useEffect(
+	// 	() => {
+	// 		//get settings
+	// 		if (previousSetting.settingsDate === today) history.push('/focus')
+	// 		// return () => {
+	// 		// 	cleanup
+	// 		// }
+	// 	},
+	// 	[ previousSetting, today, history ]
+	// )
 
 	console.log(
 		`focus: ${focusInterval}, shortBreak: ${shortBreakInterval}, longBreak: ${longBreakInterval}, focusGoal: ${focusGoal}`
 	)
 	const submitHandler = (e) => {
 		e.preventDefault()
+		history.push('/focus')
 		//start Focus Timer
 		//create new settings document and post to MongoDB
 	}

@@ -1,26 +1,30 @@
 const settings = [
 	{
 		_id          : '1',
-		settingsDate : '1/20/2021',
+		settingsDate : '1/25/2021',
+		pause        : false,
 		focus        : {
-			intervalTime           : 25,
-			active                 : 'false',
-			intervalCompleted      : 'false',
+			intervalTime           : 15,
+			// active                 : true,
+			intervalCompleted      : false,
 			completedIntervalCount : 0,
 			completedIntervalGoal  : 4,
-			roundTracker           : 0
+			roundTracker           : 1
 		},
 		shortBreak   : {
 			intervalTime                   : 5,
-			active                         : 'false',
-			intervalCompleted              : 'false',
-			exercise                       : 'true',
+			// active                         : false,
+			intervalCompleted              : false,
+			exerciseBreak                  : true,
 			completedExerciseIntervalCount : 0
 		},
+		// lazyBreak    : {
+		// 	// active : false
+		// },
 		longBreak    : {
 			intervalTime      : 15,
-			active            : 'false',
-			intervalCompleted : 'false'
+			// active            : false,
+			intervalCompleted : false
 		}
 	},
 	{
@@ -40,6 +44,9 @@ const settings = [
 			intervalCompleted              : 'false',
 			exercise                       : 'true',
 			completedExerciseIntervalCount : 0
+		},
+		lazyBreak    : {
+			active : 'false'
 		},
 		longBreak    : {
 			intervalTime      : 25,

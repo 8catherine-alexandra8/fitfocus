@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
-//import Header from './components/NavCard'
+import SplashScreen from './screens/SplashScreen'
 import SettingsEditScreen from './screens/SettingsEditScreen'
 import FocusScreen from './screens/FocusScreen'
 import ShortBreakScreen from './screens/ShortBreakScreen'
@@ -11,11 +11,13 @@ import LongBreakScreen from './screens/LongBreakScreen'
 import ReportCardScreen from './screens/ReportCardScreen'
 
 const App = () => {
+	const pathname = window.location.pathname
 	return (
 		<Router>
 			<main className='py-3'>
 				<Container className='container'>
-					<Route path='/' component={SettingsEditScreen} exact />
+					<Route path='/' component={SplashScreen} exact />
+					<Route path='/settings' component={SettingsEditScreen} />
 					<Route path='/focus' component={FocusScreen} />
 					<Route path='/shortbreak' component={ShortBreakScreen} />
 					<Route path='/lazybreak' component={LazyBreakScreen} />
@@ -23,7 +25,7 @@ const App = () => {
 					<Route path='/reportcard' component={ReportCardScreen} />
 				</Container>
 			</main>
-			<Footer />
+			{pathname !== '/' && <Footer />}
 		</Router>
 	)
 }

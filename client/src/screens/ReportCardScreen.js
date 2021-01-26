@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, ProgressBar, Row, Col } from 'react-bootstrap'
+import { Card, ProgressBar } from 'react-bootstrap'
 import NavCard from '../components/NavCard'
 
 const ReportCardScreen = () => {
@@ -45,8 +45,7 @@ const ReportCardScreen = () => {
 					Goal
 				</h1>
 				<h2 className='report-time text-center'>
-					3<span className='denominator-focus'>/12</span> focus sessions
-					completed
+					3/12 focus sessions completed
 				</h2>
 			</Card.Body>
 			<Card.Body className='px-5 py-2 text-center card-progress-report'>
