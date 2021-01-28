@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
 import SplashScreen from './screens/SplashScreen'
+import SettingsCreateScreen from './screens/SettingsCreateScreen'
 import SettingsEditScreen from './screens/SettingsEditScreen'
 import FocusScreen from './screens/FocusScreen'
 import ShortBreakScreen from './screens/ShortBreakScreen'
@@ -17,8 +18,9 @@ const App = () => {
 			<main className='py-3'>
 				<Container className='container'>
 					<Route path='/' component={SplashScreen} exact />
-					<Route path='/settings' component={SettingsEditScreen} />
-					<Route path='/focus' component={FocusScreen} />
+					<Route path='/settings' component={SettingsCreateScreen} exact />
+					<Route path='/settings/:id' component={SettingsEditScreen} />
+					<Route path='/focus/:id' component={FocusScreen} />
 					<Route path='/shortbreak' component={ShortBreakScreen} />
 					<Route path='/lazybreak' component={LazyBreakScreen} />
 					<Route path='/longbreak' component={LongBreakScreen} />

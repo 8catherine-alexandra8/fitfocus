@@ -5,10 +5,13 @@ import { useHistory } from 'react-router-dom'
 const Controls = () => {
 	const pathname = window.location.pathname
 	const history = useHistory()
-	const [ pause, setPause ] = useState(false)
+	const [ pause, setPause ] = useState(true)
 
 	const skipBreak = () => {
 		history.push('/focus')
+	}
+	const handlePause = () => {
+		console.log('pause button clicked')
 	}
 	const resetInterval = () => {
 		console.log('reset Interval')
@@ -31,7 +34,7 @@ const Controls = () => {
 			<Button
 				type='button'
 				className='btn btn-secondary mr-3'
-				onClick={() => setPause(true)}
+				onClick={() => handlePause()}
 			>
 				<i className='fas fa-pause' />
 			</Button>

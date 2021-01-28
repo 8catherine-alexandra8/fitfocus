@@ -1,56 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 import { Card, Row, Col } from 'react-bootstrap'
 import { motion } from 'framer-motion'
-import settings from '../settings'
 
 const SplashScreen = () => {
 	const history = useHistory()
-	const today = new Date().toLocaleDateString('en-US')
-	const [ loading, setLoading ] = useState(true)
-	const [ setting, setSetting ] = useState()
-
-	const [ todaySetting, setTodaySetting ] = useState(false)
-	const todaySettingRef = useRef(todaySetting)
-	todaySettingRef.current = todaySetting
+	const [ settings, setSettings ] = useState([])
+	const [ todaySetting, setTodaySetting ] = useState({})
+	const [ currentSettingId, setCurrentSettingId ] = useState('')
+	const currentSettingIdRef = useRef(currentSettingId)
+	currentSettingIdRef.current = currentSettingId
 
 	useEffect(() => {
-		setSetting(settings[0])
-
-		// return () => {
-		// 	cleanup
-		// }
+		const fetchTodaySetting = async () => {
+			const { data } = await axios.get('/api/settings/todaySetting')
+			setTodaySetting(data)
+			console.log(data)
+		}
+		fetchTodaySetting()
 	}, [])
 
 	useEffect(
 		() => {
-			setting && setLoading(false)
-			if (
-				!loading &&
-				setting.settingsDate &&
-				!todaySetting &&
-				setting.settingsDate === today
-			) {
-				setTodaySetting(true)
+			if (todaySetting) {
+				setCurrentSettingId(todaySetting._id)
+				const timer = setTimeout(() => {
+					history.push(`/focus/${currentSettingIdRef.current}`)
+				}, 6000)
+				return () => {
+					clearTimeout(timer)
+				}
+			} else if (!todaySetting) {
+				const timer = setTimeout(() => {
+					console.log('no setting for today yet')
+					history.push('/settings')
+				}, 6000)
+				return () => {
+					clearTimeout(timer)
+				}
 			}
-			// return () => {
-			//     cleanup
-			// }
 		},
-		[ setting, loading, today, todaySetting ]
+		[ todaySetting ]
 	)
-
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			todaySettingRef.current
-				? history.push('/focus')
-				: history.push('/settings')
-		}, 6000)
-
-		return () => {
-			clearTimeout(timer)
-		}
-	}, [])
+	// useEffect(() => {
+	// 	const fetchSettings = async () => {
+	// 		const { data } = await axios.get('/api/settings')
+	// 		setSettings(data)
+	// 		console.log(settings)
+	// 	}
+	// 	fetchSettings()
+	// 	console.log(settings)
+	// 	// return () => {
+	// 	//     cleanup
+	// 	// }
+	// }, [])
 
 	//Animations
 	const splashAnim = {

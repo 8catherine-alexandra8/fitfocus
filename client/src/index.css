@@ -50,7 +50,17 @@ main {
   color: #022b36;
   font-size: 2rem;
 }
-
+.timer-start-text {
+    color: #022b36;
+}
+.start-timer {
+    width: 100px;
+    height: 100px;
+}
+.start-timer-icon {
+    font-size: 3rem;
+    padding-left: 10px;
+}
 /* ShortBreakScreen */
 .timecard-title {
   color: #022b36;

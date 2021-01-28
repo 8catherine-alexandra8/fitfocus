@@ -1,7 +1,7 @@
 const settings = [
 	{
 		_id          : '5f7cfdb4ca1',
-		settingsDate : '1/27/2021',
+		settingsDate : '1/28/2021',
 		pause        : true,
 		focus        : {
 			intervalTime           : 15,
@@ -55,4 +55,4 @@ const settings = [
 		}
 	}
 ]
-export default settings
+module.exports = settings
