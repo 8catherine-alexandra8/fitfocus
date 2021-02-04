@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-const NavCard = () => {
+const NavCard = ({ id, from }) => {
 	return (
 		<Navbar bg='dark' variant='dark' className='navbar'>
 			<Container>
@@ -10,9 +11,14 @@ const NavCard = () => {
 					<Navbar.Brand>FitFocus</Navbar.Brand>
 				</LinkContainer>
 				<Nav className='ml-auto'>
-					<Nav.Link href='/'>
+					<Link
+						to={{
+							pathname : `/settings/${id}/edit`,
+							state    : { from: `${from}` }
+						}}
+					>
 						<i className='fas fa-cog icon-nav' />
-					</Nav.Link>
+					</Link>
 				</Nav>
 			</Container>
 		</Navbar>

@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
-const Controls = () => {
+const Controls = ({ match }) => {
 	const pathname = window.location.pathname
+	// const screen = window.location.pathname.split('/')[1]
+	// const settingId = window.location.pathname.split('/')[2]
 	const history = useHistory()
 	const [ pause, setPause ] = useState(true)
 

@@ -19,7 +19,14 @@ main {
 .progress {
   margin-bottom: 3rem;
 }
-
+ .progress {
+  color: #b58900 !important;
+  background-color: #b58900 !important;
+}  
+.progress-bar {
+  color:  #226577 !important;
+  background-color: #022b36 !important;
+}
 /* SplashScreen */
 .splash-card-text-container {
   margin: 2rem 0rem;

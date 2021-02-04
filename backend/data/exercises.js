@@ -1,6 +1,5 @@
 const exercises = [
 	{
-		_id         : '5f7cfdb4ca772449a38a80f5',
 		name        : 'Inchworm',
 		description : [
 			'Stand up tall with legs straight, making sure your knees aren’t locked.',
@@ -10,7 +9,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cfe17ca772449a38a80f6',
 		name        : 'Tuck Jump',
 		description : [
 			'Stand with your knees slightly bent, then jump up as high as possible — pretend Jeremy Lin is watching!',
@@ -19,7 +17,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cfe66ca772449a38a80f7',
 		name        : 'Bear Crawl',
 		description : [
 			'Embrace that inner grizzly.',
@@ -28,7 +25,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cfeb2ca772449a38a80f8',
 		name        : 'Mountain Climber',
 		description : [
 			'Start on your hands and knees.',
@@ -39,7 +35,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cfeefca772449a38a80f9',
 		name        : 'Prone Walkout',
 		description : [
 			'Start on all fours with your core engaged.',
@@ -48,7 +43,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cff8bca772449a38a80fa',
 		name        : 'Burpee',
 		description : [
 			'One of the most effective full-body exercises around, this one starts in a low squat position with your hands on the floor.',
@@ -58,7 +52,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7cffccca772449a38a80fb',
 		name        : 'Plank',
 		description : [
 			'Nope, we’re (thankfully) not walking the plank.',
@@ -68,7 +61,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0015ca772449a38a80fc',
 		name        : 'Plank to Push-Up',
 		description : [
 			'Start in a plank position.',
@@ -78,7 +70,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0061ca772449a38a80fd',
 		name        : 'Wall Sit',
 		description : [
 			'Slowly slide your back down a wall until your thighs are parallel to the floor.',
@@ -87,7 +78,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d00a2ca772449a38a80fe',
 		name        : 'Lunge',
 		description : [
 			'Stand with hands on hips and feet hip-width apart.',
@@ -97,7 +87,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d00d7ca772449a38a80ff',
 		name        : 'Clock Lunge',
 		description : [
 			'Time for a challenge.',
@@ -107,7 +96,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0102ca772449a38a8100',
 		name        : 'Lunge to Row',
 		description : [
 			'Start by doing a normal lunge.',
@@ -117,7 +105,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0139ca772449a38a8101',
 		name        : 'Pistol Squat',
 		description : [
 			'There may be no gun permit necessary for this one, but it’s still no joke.',
@@ -128,7 +115,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d016aca772449a38a8102',
 		name        : 'Lunge Jump',
 		description : [
 			'Ready to impress some friends?',
@@ -139,7 +125,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0194ca772449a38a8103',
 		name        : 'Curtsy Lunge',
 		description : [
 			'Let’s show a little respect.',
@@ -148,7 +133,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d01b8ca772449a38a8104',
 		name        : 'Squat',
 		description : [
 			'Stand with feet parallel or turned out 15 degrees — whatever is most comfortable.',
@@ -158,7 +142,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d01dfca772449a38a8105',
 		name        : 'Single-Leg Deadlift',
 		description : [
 			'Start in a standing position with feet together.',
@@ -170,7 +153,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0218ca772449a38a8106',
 		name        : 'Squat Reach and Jump',
 		description : [
 			'Ready to add some pizzazz (and cardio!) to that squat?',
@@ -179,7 +161,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d024cca772449a38a8107',
 		name        : 'Chair Pose Squat',
 		description : [
 			'Stand with feet hip-width apart and squat until thighs are parallel to the floor while swinging arms up.',
@@ -188,7 +169,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0280ca772449a38a8108',
 		name        : 'Quadruped Leg Lift',
 		description : [
 			'Start on hands and knees, with back flat and core engaged.',
@@ -198,7 +178,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d02b6ca772449a38a8109',
 		name        : 'Calf Raise',
 		description : [
 			'From a standing position, slowly rise up on your toes, keeping knees straight and heels off the floor.',
@@ -207,7 +186,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d02edca772449a38a810a',
 		name        : 'Standard Push-Up',
 		description : [
 			'There’s a reason this one’s a classic.',
@@ -218,7 +196,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0314ca772449a38a810b',
 		name        : 'Dolphin Push-Up',
 		description : [
 			'Start out in Dolphin Pose (think Downward-Facing Dog Pose with elbows on the floor).',
@@ -228,7 +205,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d033aca772449a38a810c',
 		name        : 'Contralateral Limb Raise',
 		description : [
 			'Sounds fancy, huh?',
@@ -240,7 +216,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d03d5ca772449a38a810d',
 		name        : 'Donkey Kick',
 		description : [
 			'It’s time to embrace that wild side.',
@@ -250,7 +225,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d03faca772449a38a810e',
 		name        : 'Handstand Push-Up',
 		description : [
 			'Fair warning: This move is for the pros. Get set in a handstand position against a wall.',
@@ -259,7 +233,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d044eca772449a38a810f',
 		name        : 'Judo Push-Up',
 		description : [
 			'From a push-up position, raise those hips and in one swift movement — hai-yah! — use your arms to lower the front of your body until your chin comes close to the floor.',
@@ -268,7 +241,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0496ca772449a38a8110',
 		name        : 'Superman',
 		description : [
 			'Want some superpowers?',
@@ -278,7 +250,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d04d0ca772449a38a8111',
 		name        : 'Triceps Dip',
 		description : [
 			'Sit on the floor near a step or bench, with knees slightly bent.',
@@ -288,7 +259,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d053eca772449a38a8112',
 		name        : 'Diamond Push-Up',
 		description : [
 			'Rhianna would approve of this one!',
@@ -298,7 +268,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d056bca772449a38a8113',
 		name        : 'Boxer',
 		description : [
 			'Time to make Muhammad Ali proud.',
@@ -309,7 +278,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d059cca772449a38a8114',
 		name        : 'Shoulder Stabilization I-Y-T-W-O',
 		description : [
 			'OK, it may look ridiculous, but stay with us.',
@@ -319,7 +287,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d05f9ca772449a38a8115',
 		name        : 'Arm Circles',
 		description : [
 			'Remember PE class?',
@@ -329,7 +296,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0619ca772449a38a8116',
 		name        : 'L Seat',
 		description : [
 			'Take a load off (well, not exactly).',
@@ -340,7 +306,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d063eca772449a38a8117',
 		name        : 'Rotational Push-Up',
 		description : [
 			'Standard push-ups not cutting it?',
@@ -349,7 +314,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0667ca772449a38a8118',
 		name        : 'Flutter Kick',
 		description : [
 			'Lie faceup with arms at your sides and palms facing down.',
@@ -359,7 +323,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d068cca772449a38a8119',
 		name        : 'Dynamic Prone Plank',
 		description : [
 			'Starting in a standard plank position, raise your hips as high as they can go, then lower them back down.',
@@ -368,7 +331,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d06b0ca772449a38a811a',
 		name        : 'Side Plank',
 		description : [
 			'Lie faceup and roll to the side.',
@@ -377,7 +339,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d06e4ca772449a38a811b',
 		name        : 'Russian Twist',
 		description : [
 			'Sit on the floor with knees bent and feet together, lifted a few inches off the floor.',
@@ -387,7 +348,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d070aca772449a38a811c',
 		name        : 'Bicycle',
 		description : [
 			'Lie faceup with knees bent and hands behind your head.',
@@ -398,7 +358,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d072dca772449a38a811d',
 		name        : 'Crunch',
 		description : [
 			'Before anyone’s crowned Cap’n Crunch, remember: Form is key.',
@@ -410,7 +369,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0762ca772449a38a811e',
 		name        : 'Segmental Rotation',
 		description : [
 			'Let’s target those obliques!',
@@ -419,7 +377,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0786ca772449a38a811f',
 		name        : 'Shoulder Bridge',
 		description : [
 			'Lie faceup with knees bent and feet hip-width apart.',
@@ -431,7 +388,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d07acca772449a38a8120',
 		name        : 'Single Leg Ab Press',
 		description : [
 			'Lie faceup with knees bent and feet flat on the floor.',
@@ -442,7 +398,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d07d3ca772449a38a8121',
 		name        : 'Double Leg Ab Press',
 		description : [
 			'Lie faceup with knees bent and feet flat on the floor.',
@@ -453,7 +408,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d086eca772449a38a8122',
 		name        : 'Sprinter Situp',
 		description : [
 			'Want to be a speed demon without getting off the floor?',
@@ -463,7 +417,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d08b0ca772449a38a8123',
 		name        : 'Single Leg Balance',
 		description : [
 			'Start standing with hands on hips.',
@@ -472,7 +425,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d090aca772449a38a8124',
 		name        : 'Bird Dog',
 		description : [
 			'Start on all fours, knees under hips and shoulders over wrists.',
@@ -483,7 +435,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d0930ca772449a38a8125',
 		name        : 'Windshield Wiper',
 		description : [
 			'Lie faceup on the mat with arms straight out so body forms a “T” and extend legs straight up toward ceiling.',
@@ -493,7 +444,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7d09a9ca772449a38a8127',
 		name        : 'Groiners',
 		description : [
 			'Start in a pushup position.',
@@ -503,7 +453,6 @@ const exercises = [
 		]
 	},
 	{
-		_id         : '5f7ded8f99986120add922e8',
 		name        : 'Skater Hops',
 		description : [
 			'Starting at the left of your space, squat slightly then jump to the right as far as you can.',
@@ -512,4 +461,4 @@ const exercises = [
 		]
 	}
 ]
-module.exports = exercises
+export default exercises
