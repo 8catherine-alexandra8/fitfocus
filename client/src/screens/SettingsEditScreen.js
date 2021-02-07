@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Form, Button, Card } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import NavCard from '../components/NavCard'
+import Footer from '../components/Footer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
@@ -92,28 +93,27 @@ const SettingsEditScreen = ({ match }) => {
 				<Message variant='danger'>{error}</Message>
 			) : (
 				<Card className='card card-settings text-white bg-secondary m-4'>
-					<Card.Header className='text-center card-header p-3'>
+					<Card.Header className='text-center card-header'>
 						<NavCard />
 					</Card.Header>
-					<Card.Header className='text-center card-header px-5 py-3'>
+					<Card.Header className='text-center screen-header'>
 						<h1>
-							<i className='fas fa-cog px-4' />Settings<i className='fas fa-cog px-4' />
+							<i className='fas fa-cog px-3' />Settings<i className='fas fa-cog px-3' />
 						</h1>
 						<h5 className='card-subtitle py-2 text-center'>
 							{' '}
 							{setting.date}
 						</h5>
 					</Card.Header>
-					<Form className='form p-5' onSubmit={submitHandler}>
+					<Form className='form' onSubmit={submitHandler}>
 						<Form.Group controlId='settingsForm.ControlSelect1'>
-							<Form.Label className='col-form-label col-form-label-lg'>
+							<Form.Label className='col-form-label col-form-label'>
 								Focus Interval
 							</Form.Label>
 							<Form.Control
 								className='setting-select'
 								as='select'
 								type='number'
-								size='lg'
 								value={focusInterval}
 								onChange={(e) => setFocusInterval(e.target.value)}
 							>
@@ -126,14 +126,13 @@ const SettingsEditScreen = ({ match }) => {
 						</Form.Group>
 
 						<Form.Group controlId='settingsForm.ControlSelect2'>
-							<Form.Label className='col-form-label col-form-label-lg'>
+							<Form.Label className='col-form-label '>
 								Short Break Interval
 							</Form.Label>
 							<Form.Control
 								className='setting-select'
 								as='select'
 								type='number'
-								size='lg'
 								value={shortBreakInterval}
 								onChange={(e) => setShortBreakInterval(e.target.value)}
 							>
@@ -145,14 +144,13 @@ const SettingsEditScreen = ({ match }) => {
 						</Form.Group>
 
 						<Form.Group controlId='settingsForm.ControlSelect3'>
-							<Form.Label className='col-form-label col-form-label-lg'>
+							<Form.Label className='col-form-label '>
 								Long Break Interval
 							</Form.Label>
 							<Form.Control
 								className='setting-select'
 								as='select'
 								type='number'
-								size='lg'
 								value={longBreakInterval}
 								onChange={(e) => setLongBreakInterval(e.target.value)}
 							>
@@ -165,14 +163,13 @@ const SettingsEditScreen = ({ match }) => {
 						</Form.Group>
 
 						<Form.Group controlId='settingsForm.ControlSelect4'>
-							<Form.Label className='col-form-label col-form-label-lg'>
+							<Form.Label className='col-form-label '>
 								Total # Focus Sessions Goal
 							</Form.Label>
 							<Form.Control
 								className='setting-select'
 								as='select'
 								type='number'
-								size='lg'
 								value={focusGoal}
 								onChange={(e) => setFocusGoal(e.target.value)}
 							>
@@ -189,6 +186,7 @@ const SettingsEditScreen = ({ match }) => {
 							Submit
 						</Button>
 					</Form>
+					<Footer />
 				</Card>
 			)}
 		</FormContainer>

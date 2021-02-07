@@ -2,11 +2,38 @@
 main {
   min-height: 80vh;
 }
+.col-12 {
+    padding: 0px !important;
+  }
+h1{
+    font-size: 1.4rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0px !important;
+  }
+h2 {
+  font-size: 1.5rem;
+  padding: 0 !important;
+}
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+
 
 /* All Screens */
 .card {
   border-radius: 10px;
+  margin: 0 !important;
 }
+.card-header {
+  padding: 1rem;
+}
+/* .card-body {
+  padding: 1rem !important;
+} */
+
 
 /* Focus, Short, Lazy, Long screens */
 .timer {
@@ -15,19 +42,40 @@ main {
   margin-bottom: 0;
 }
 
+
 /* Focus, Lazy, Long screens */
+#break.progress {
+  color:  #226577 !important;
+  background-color: #022b36 !important;
+}
+#break div.progress-bar {
+  color: #022b36 !important;
+  font-size: 1rem;
+  background-color: #b58900 !important;
+}
 .progress {
   margin-bottom: 3rem;
-}
- .progress {
   color: #b58900 !important;
   background-color: #b58900 !important;
 }  
 .progress-bar {
-  color:  #226577 !important;
-  background-color: #022b36 !important;
+  color:  #226577;
+  background-color: #022b36;
 }
+.prog-wrapper {
+  margin-top: 1.5rem;
+}
+
+/* Focus, Lazybreak, Longbreak screens */
+.card-focus, .card-lazybreak, .card-longbreak {
+  max-width: 475px;
+  max-height: 100vh;
+}
+
 /* SplashScreen */
+.splash-card {
+  max-height: 100vh;
+}
 .splash-card-text-container {
   margin: 2rem 0rem;
 }
@@ -37,12 +85,8 @@ main {
 }
 .splash-img {
   margin: 20px 10px 40px 10px;
-}
-.splash-card-footer {
-  margin-top: 4rem;
-}
-.splash-footer-text {
-  margin-bottom: 0;
+  object-fit: scale-down;
+  max-width: 150px;
 }
 .hide {
   overflow: hidden;
@@ -53,9 +97,9 @@ main {
   color: #88989a;
   text-shadow: 1px 1px 1px #022b36;
 }
-.timecard-title-focus {
+.title-focus {
   color: #022b36;
-  font-size: 2rem;
+  /* font-size: 2rem; */
 }
 .timer-start-text {
     color: #022b36;
@@ -68,25 +112,40 @@ main {
     font-size: 3rem;
     padding-left: 10px;
 }
+
 /* ShortBreakScreen */
 .timecard-title {
   color: #022b36;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
 }
 .icon-break-heart {
   color: #d33781;
+  margin: 0 1rem;
   text-shadow: 1px 1px 1px #022b36;
+}
+.timer-exercise {
+  font-size: 2rem;
+}
+.exercise-timer-wrapper {
+  height: 3rem;
+  padding: 0 1rem .5rem 1rem !important;
+}
+h6 {
+  font-size: .8rem;
 }
 .list-group-item {
   border: none !important;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #022b36;
+  padding: .45rem 0;
 }
 .btn-next-exercise, .btn-lazybreak {
     color: #022b36;
     transition: all 0.5s ease;
     align-self: flex-end;
     box-shadow: none !important;
+    padding: 0;
+    text-decoration: none;
 }
 .btn-next-exercise:hover,
 .btn-lazybreak:hover {
@@ -95,9 +154,10 @@ main {
   text-decoration: none;
 }
 .exercise-name {
-  font-size: 1.5rem !important;
+  font-size: 1.2rem !important;
   color:#022b36;
   font-weight: bolder;
+  margin-bottom: 0;
 }
 
 /* LazyBreakScreen */
@@ -119,7 +179,15 @@ main {
 }
 .icon-nav {
   font-size: 1.3rem;
-} 
+}
+.col-form-label-lg {
+  padding-bottom: 5px !important;
+  padding-top: 3px !important;
+}
+.form {
+  padding: 1.7rem 2rem;
+}
+
 
 /* ReportCardScreen */
 .icon-report {
@@ -154,15 +222,25 @@ main {
 .report-progress-bar {
     margin-bottom: 3rem !important;
 }
+.report-prog {
+  height: 25px !important;
+}
 
 /* NavCard */
 .navbar {
   border-radius: 8px;
 }
+.navbar-brand {
+  color: #88989a !important;
+}
 
 /* Tracker */
+/* .tracking-container {
+  margin-bottom: 1.5rem;
+} */
 .rounds-header, .goal-header {
   color: #022b36;
+  padding: 0px !important;
 }
 .denominator-focus {
   color: #022b36;
@@ -181,6 +259,7 @@ hr {
 }
 .rounds-container, .goal-container {
   width: 50%;
+  margin-bottom: .7rem;
 }
 .rounds-progress, .goal-progress {
   margin-top: .5rem;
@@ -192,46 +271,79 @@ hr {
   padding: .5rem;
 }
 
-/* Controls */
-.btn {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 50%;
+/* Footer */
+.footer-text {
+  margin-bottom: 0;
+  font-size: 0.7rem;
 }
-.fa-play, .fa-forward {
-  margin-left: auto;
-  margin-right: auto;
+.copyright-footer {
+  margin-top: 1.5rem;
+}
+.dark {
+  color: #022b36
+}
+.light {
+  color: #88989a
 }
 
-@media(max-width: 576px) {
-  .card {
-    margin: 0 !important;
+
+
+/* Media Queries */
+@media(max-width: 358px) {
+  .btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: .85rem;
   }
-  .card-body {
-    padding: 1rem !important;
+  .controls {
+    background: transparent;
+    border: none !important;
   }
-  .card-focus, .card-shortbreak {
-    max-width: 475px;
-    min-width: 250px;
+  .fa-play, .fa-pause, .fa-redo-alt, .fa-forward, .fa-power-off {
+    text-shadow: 1px 1px 1px #022b36;
+    font-size: 1.2rem;
+  } 
+  .fa-play {
+    color: #3aa8a0;
   }
-  h1{
-    font-size: 1.5rem;
+  .fa-pause {
+    color: #88989a;
+  }
+  .fa-redo-alt {
+    color: #fdf7e5;
+  }
+  .fa-forward {
+    color: #b58904;
+  }
+  .fa-power-off {
+    color:#d33781;
+  }
+  .fa-spa, .fa-grin-beam-sweat {
+    padding: 0 1rem !important;
+  }
+  .fa-hand-sparkles {
+    padding: 0 .5rem !important;
+  }
+  .next-exercise-card {
+    padding: 0rem 1.5rem .5rem 1.5rem
+  }
+  .timer-exercise {
+    font-size: 3rem;
+  }
+}
+@media(min-width: 359px) {
+  h1 {
+    font-size: 1.6rem;
   }
   h2 {
-    font-size: 1.5rem;
-    padding: 0 !important;
-  }
-  h3 {
     font-size: 1.2rem;
   }
-
-  label {
-    font-size: 1rem !important;
+  .timer {
+  font-size: 3rem;
   }
-  .p-5, .px-5 {
-    padding: 1rem !important;
-  }
-  .py-3 {
-    padding: 1rem !important;
+  .tracking-container {
+    padding-top: .5rem !important;
   }
   .card-progress-report {
     padding-top: 0 !important;
@@ -243,16 +355,143 @@ hr {
   .icon-focus-brain, .icon-break-heart {
     padding: 0 5px !important;
   }
+  .footer-text {
+    font-size: .9rem;
+  }
+  .card-header {
+    padding: 2rem;
+  }
+  .screen-header {
+    padding: 1rem !important;
+  }
+  .btn {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 50%;
+  margin: 0 5px;
+}
+  .fa-play, .fa-forward {
+  margin-left: auto;
+  margin-right: auto;
+  }
+  .btn-play {
+    background: #3aa8a0;
+    border: none;
+    margin-right: 1rem;
+  }
+  .btn-pause {
+    background: #88989a;
+    border: none;
+    margin-right: 1rem;
+  }
+  .btn-reset {
+    background: #fdf7e5;
+    border: none;
+    color: #022b36;
+    margin-right: 1rem;  
+  }
+  .btn-quit {
+    background: #d33781;
+    border: none;
+  }
 }
 
+@media(min-width: 530px) {
+  h1 {
+    font-size: 2rem;
+  }
+  h3 {
+    margin-top: .5rem !important;
+    font-size: 1.5rem;
+  }
+  .timer {
+  font-size: 4rem;
+  }
+  .container-fluid {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+  .form {
+    padding: 2rem 2.5rem;
+  }
+  .form-control {
+    line-height: 2.5rem;
+    height: 3rem;
+    font-size: 1.5rem;
+  }
+  label {
+    font-size: 1.2rem !important;
+    line-height: 1.5rem !important;
+  }
+  .tracking-container {
+    margin-bottom: 1rem;
+  }
+  .rounds-header, .goal-header {
+    padding: .5rem !important;
+  }
+  .rounds-progress, .goal-progress {
+    font-size: 3rem;
+  }
+  .exercise-card {
+    padding: 3rem 2.5rem 0rem 2.5rem !important;
+
+  }
+  .btn {
+    margin: 0 10px;
+  }
+  .card-report-top {
+    padding-top: 2rem !important;
+  }
+}
+
+
 @media(min-width: 768px) {
+  h3 {
+    font-size: 2rem;
+  }
+  .container-fluid {
+    padding: 2rem 3.5rem 0 3.5rem;
+  }
   .card {
-    max-width: 600px;
+    max-width: 500px;
     margin-left: auto !important;
     margin-right: auto !important;
   }
   .timecard-title {
     font-size: 2.4rem;
   }
+  .icon-focus-brain {
+    padding: 0 1.5rem !important;
+  }
+  .screen-title {
+    font-size: 2.5rem;
+  }
+  .timer {
+    font-size: 5rem;
+  }
+  .timer-label {
+    font-size: 2rem;
+  }
+  .progress {
+    height: 2rem;
+  }
+  .rounds-progress, .goal-progress {
+    font-size: 4rem;
+  }
+  .denominator-focus {
+    font-size: 2rem;
+  }
+  .tracking-container {
+    margin-bottom: 0;
+  }
+  .fa-play, .fa-pause, .fa-redo-alt, .fa-power-off {
+    font-size: 1.5rem;
+  }
+  .controls {
+    width: 50px;
+    height: 50px;
+  }
+  /* .btn-play, .btn-pause, .btn-reset {
+    margin-right: 1.5rem;
+  } */
 }
 

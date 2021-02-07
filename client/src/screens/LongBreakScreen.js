@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, ProgressBar } from 'react-bootstrap'
+import { Card, ProgressBar, Button } from 'react-bootstrap'
 import useSound from 'use-sound'
 import transitionSfx from '../sounds/transition.mp3'
 import NavCard from '../components/NavCard'
 import Tracker from '../components/Tracker'
-import Controls from '../components/Controls'
+import Footer from '../components/Footer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listSettingDetails, updateSettingRoundCt  } from '../actions/settingActions'
@@ -16,6 +16,7 @@ import { SETTING_UPDATE_ROUNDCT_RESET } from '../constants/settingConstants'
 
 const LongBreakScreen = ({match}) => {
 	const history = useHistory()
+	let progress
 
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
@@ -30,7 +31,10 @@ const LongBreakScreen = ({match}) => {
 
 	//component level state
 	const [intervalTime, setIntervalTime] = useState()
+	const intervalRef = useRef(intervalTime)
+	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(false)
+	const [barLgth, setBarLgth] = useState(0)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -54,6 +58,16 @@ const LongBreakScreen = ({match}) => {
 		// }
 		}
 	}, [setting._id])
+
+	//use application state to set component state value for prog bar length
+	useEffect(() => {
+		if (setting && intervalRef.current) {
+			progress = Math.floor(((setting.longBrkIntvlLgth-intervalRef.current)/setting.longBrkIntvlLgth) * 100)
+			console.log(intervalRef.current, intervalTime)
+			setBarLgth(progress)
+		}
+		
+	}, [intervalRef.current, setting])
 
 	//Timer 
 	useEffect(
@@ -101,6 +115,18 @@ const LongBreakScreen = ({match}) => {
 		 
 	}, [successRoundCtUpdate])
 
+	//Button controls
+	 const resetInterval = () => {
+		setPause(true)
+		window.location.reload()
+	}
+	const skipBreak = () => {
+		history.push(`/focus/${setting._id}`, {from: 'break'})
+	}
+	 const quit = () => {
+		 history.push(`/reportcard/${setting._id}`)
+	 }
+
 	return (
 				<>
 	 	{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
@@ -120,22 +146,53 @@ const LongBreakScreen = ({match}) => {
 				<h2 className='text-center'>minutes</h2>
 			</Card.Body>
 			<Card.Body className='px-5 py-3 text-center'>
+				<div style={{ width : '80%', marginLeft: 'auto', marginRight: 'auto'}}>
 				<ProgressBar
-					className='progress-bar progress-bar-striped progress-bar-animated '
-					role='progressbar'
-					aria-valuenow='75'
-					aria-valuemin='0'
-					aria-valuemax='100'
-					style={{ width: '75%', marginLeft: 'auto', marginRight: 'auto' }}
-				/>
+					id='break'
+					className='progress-bar-primary progress-bar-striped progress-bar-animated'
+					now= {barLgth}
+					animated
+				/>	
+				</div>	
 			</Card.Body>
 			<Tracker totalCompleted={setting.focusIntvlCt} roundTracker={setting.focusRoundCt} intervalsGoal={setting.focusIntvlGoal}/>
-			<Controls />
+			<Card.Footer className='p-3 text-center'>
+				<Button
+					type='button'
+					className='btn btn-success'
+					onClick={() => setPause(false)}
+				>
+					<i className='fas fa-play' />
+				</Button>
+				<Button
+					type='button'
+					className='btn btn-secondary'
+					onClick={() => setPause(!pause)}
+				>
+					<i className='fas fa-pause' />
+				</Button>
+				<Button
+					type='button'
+					className='btn btn-light'
+					onClick={() => resetInterval()}
+				>
+					<i className='fas fa-redo-alt' />
+				</Button>
+				<Button
+					type='button'
+					className='btn btn-primary'
+					onClick={() => skipBreak()}
+				>
+					<i className='fas fa-forward' />
+				</Button>
+				<Button type='button' className='btn btn-danger'>
+					<i className='fas fa-power-off' onClick={() => quit()} />
+				</Button>
+				<Footer />
+			</Card.Footer>
 		</Card>
 				)} 
-		
 		</>
-
 	)
 }
 

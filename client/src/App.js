@@ -15,8 +15,8 @@ const App = () => {
 	const pathname = window.location.pathname
 	return (
 		<Router>
-			<main className='py-3'>
-				<Container className='container'>
+			<main>
+				<Container fluid>
 					<Route path='/' component={SplashScreen} exact />
 					{/* <Route path='/settings' component={SettingsCreateScreen} exact /> */}
 					<Route
@@ -31,10 +31,9 @@ const App = () => {
 					/>
 					<Route path='/lazybreak/:id' component={LazyBreakScreen} />
 					<Route path='/longbreak/:id' component={LongBreakScreen} exact />
-					<Route path='/reportcard' component={ReportCardScreen} />
+					<Route path='/reportcard/:id' component={ReportCardScreen} />
 				</Container>
 			</main>
-			{pathname === '/' ? <div /> : <Footer />}
 		</Router>
 	)
 }

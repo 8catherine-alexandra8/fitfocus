@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Card, ListGroup } from 'react-bootstrap'
 import useSound from 'use-sound'
 import NavCard from '../components/NavCard'
-import Controls from '../components/Controls'
+import Footer from '../components/Footer'
 import transitionSfx from '../sounds/transition.mp3'
 import minuteSfx from '../sounds/minuteAlert.mp3'
 //import exercises from '../exercises'
@@ -67,12 +67,6 @@ const ShortBreakScreen = ({match}) => {
 			console.log('exercises exist so setRandomized should run now')
 			const randomExercise = exercises[exerciseIndex]
 			setExercise(randomExercise)
-			// const randomized = exercises
-	 		// 					.map((a) => ({sort: Math.random(), value: a}))
-			// 					.sort((a, b) => a.sort - b.sort)
-			// 					.map((a) => a.value)
-			// setRandomizedExercises(randomized)
-			// setRandomized(true)
 		}
 	}, [exercises, exerciseIndex])
 
@@ -93,8 +87,7 @@ const ShortBreakScreen = ({match}) => {
 		},
 		[ loading, pause, intervalTime]
 	) 
-//need to use this to update app state setting for shortBreak.
-//completedExercise if setting.shortBreak.exeriseBreak === true
+//Update app state setting for shortBreak.completedExercise 
 	useEffect(() => {
 		if (
 			!loading &&
@@ -119,49 +112,11 @@ const ShortBreakScreen = ({match}) => {
 		}		
 	}, [successExerciseCtUpdate])
 
-	//Pre redux state and data fetches
-	// const [ randomizedExercises, setRandomizedExercises ] = useState()
-	// const [ shortBreakInterval, setShortBreakInterval ] = useState()
-	// const [ setting, setSetting ] = useState()
-	// const [ loading, setLoading ] = useState(true)
-	// const [ exerciseBreak, setExerciseBreak ] = useState(true)
-	// const [ exerciseIndex, setExerciseIndex ] = useState(0)
-
-	// useEffect(() => {
-	// 	if (exercises && !randomizedExercises && loading) {
-	// 		let randomized = exercises
-	// 							.map((a) => ({sort: Math.random(), value: a}))
-	// 							.sort((a, b) => a.sort - b.sort)
-	// 							.map((a) => a.value)
-	// 		setRandomizedExercises(randomized)
-	// 	}
-		// return () => {
-		// 	cleanup
-		// }
-	// }, [])
-
-	// useEffect(() => {
-	// 	if (!setting && loading) {
-	// 	setSetting(settings[0])
-	// 	} else if (randomizedExercises && setting && loading) {
-	// 		setLoading(false)
-	// 	}
-	// 	// return () => {
-	// 	// 	cleanup
-	// 	// }
-	// }, [setting, loading])
-		
 	//Button controls
 	const handleLazyBreak = () => {
-	// set setting.shortBreak.intervalTime to current value of 
-	//component level state: intervalTime
-	//update to exercise break false, if necessary
 		history.push(`/lazybreak/${setting._id}?timeLeft=${intervalTime}`)
 	}
-	const handleNextExercise = () => {
-		setExerciseIndex(exerciseIndex + 1)
-		console.log('next exercise clicked')
-	}
+
 	 const resetInterval = () => {
 		setPause(true)
 		window.location.reload()
@@ -170,7 +125,7 @@ const ShortBreakScreen = ({match}) => {
 		history.push(`/focus/${setting._id}`, {from: 'break'})
 	}
 	 const quit = () => {
-		 console.log('quit')
+		 history.push(`/reportcard/${setting._id}`)
 	 }
 
 
@@ -182,23 +137,23 @@ const ShortBreakScreen = ({match}) => {
 				<NavCard id={setting._id} from='shortBreak'/>
 			</Card.Header>
 			<Card.Header className='text-center card-header p-3'>
-				<h1 className='timecard-title'>
-					<i className='fas fa-heartbeat px-4 icon-break-heart' />Short
-					Break<i className='fas fa-heartbeat px-4 icon-break-heart' />
+				<h1 className='screen-title'>
+					<i className='fas fa-heartbeat  icon-break-heart' />Short
+					Break<i className='fas fa-heartbeat  icon-break-heart' />
 				</h1>
 			</Card.Header>
-			<Card.Body className='p-3'>
-				<h1 className='timer text-center'>{intervalTime}</h1>
-				<h4 className='text-center'>minutes</h4>
+			<Card.Body className='exercise-timer-wrapper'>
+				<h1 className='timer timer-exercise text-center'>{intervalTime}</h1>
+				{/* <h6 className='text-center'>minutes</h6> */}
 			</Card.Body>
 			{!exercise ? <Loader /> : errorExercises ? <Message variant='danger'>{errorExercises}</Message> : (
-			<Card.Body className='p-3'>
-				<Card.Title className='px-3 exercise-name'>
+			<Card.Body className='exercise-card px-4'>
+				<Card.Title className='exercise-name text-center'>
 					{exercise.name}
 				</Card.Title>
 				<ListGroup variant='flush'>
 					{(exercise.description).map((exerciseStep) => (
-						<ListGroup.Item key={exercise._id}>
+						<ListGroup.Item key={exerciseStep}>
 							{exerciseStep}
 						</ListGroup.Item>
 					))}
@@ -206,9 +161,9 @@ const ShortBreakScreen = ({match}) => {
 			</Card.Body>
         	)}
 
-			<Card.Body className='next-exercise-card p-3'>
+			<Card.Body className='next-exercise-card'>
 				<Button
-					className='btn-next-exercise float-left'
+					className='btn-lazybreak float-left'
 					variant='link'
 					onClick={() => handleLazyBreak()}
 				>
@@ -221,7 +176,7 @@ const ShortBreakScreen = ({match}) => {
 				<Button
 					className='btn-next-exercise float-right'
 					variant='link'
-					// onClick={() => setExerciseIndex(exerciseIndex + 1)}
+					onClick={() => setExerciseIndex(exerciseIndex + 1)}
 				>
 					Next Exercise <i className='fas fa-arrow-right' />
 				</Button>
@@ -229,28 +184,28 @@ const ShortBreakScreen = ({match}) => {
 			<Card.Footer className='p-3 text-center'>
 				<Button
 					type='button'
-					className='btn btn-success mr-3'
+					className='btn btn-success'
 					onClick={() => setPause(false)}
 				>
 					<i className='fas fa-play' />
 				</Button>
 				<Button
 					type='button'
-					className='btn btn-secondary mr-3'
+					className='btn btn-secondary'
 					onClick={() => setPause(!pause)}
 				>
 					<i className='fas fa-pause' />
 				</Button>
 				<Button
 					type='button'
-					className='btn btn-light mr-3'
+					className='btn btn-light'
 					onClick={() => resetInterval()}
 				>
 					<i className='fas fa-redo-alt' />
 				</Button>
 				<Button
 					type='button'
-					className='btn btn-primary mr-3'
+					className='btn btn-primary'
 					onClick={() => skipBreak()}
 				>
 					<i className='fas fa-forward' />
@@ -258,6 +213,7 @@ const ShortBreakScreen = ({match}) => {
 				<Button type='button' className='btn btn-danger'>
 					<i className='fas fa-power-off' onClick={() => quit()} />
 				</Button>
+				<Footer />
 			</Card.Footer>
 		</Card>
 		)}

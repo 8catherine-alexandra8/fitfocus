@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Card, ProgressBar, Button, Navbar, Container, Nav } from 'react-bootstrap'
 import useSound from 'use-sound'
 import NavCard from '../components/NavCard'
+import Footer from '../components/Footer'
 import Tracker from '../components/Tracker'
 import transitionSfx from '../sounds/transition.mp3'
 import longBreakAlertSfx from '../sounds/longBreakAlert.mp3'
@@ -35,9 +36,9 @@ const FocusScreen = ({match}) => {
 	const intervalRef = useRef(intervalTime)
 	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(true)
-	const [percentProgress, setPercentProgress] = useState(0)
-	const progressRef = useRef(percentProgress)
-	progressRef.current = percentProgress
+	// const [percentProgress, setPercentProgress] = useState(0)
+	// const progressRef = useRef(percentProgress)
+	// progressRef.current = percentProgress
 	const [barLgth, setBarLgth] = useState(0)
 
 	//Redux get setting that has _id matching id in url
@@ -47,9 +48,9 @@ const FocusScreen = ({match}) => {
 
 	//use application state to set component state value for interval
 	useEffect(() => {
-		if (success || successUpdate) {
+		if (setting || success || successUpdate) {
 			setIntervalTime(setting.focusIntvlLgth)
-			if(history && history.location.state.from === 'break') {
+			if(history.location.state && history.location.state.from === 'break') {
 				setPause(false)
 			}
 		}
@@ -116,27 +117,27 @@ const FocusScreen = ({match}) => {
 		window.location.reload()
 	}
 	 const quit = () => {
-		 console.log('quit')
+		 history.push(`/reportcard/${setting._id}`)
 	 }
 	return (
 		
 		<Card className='card card-focus text-white bg-primary m-4'>
 			{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : success && (
 				<>
-			<Card.Header className='text-center card-header p-3'>
+			<Card.Header className='p-3 text-center card-header'>
 				<NavCard id={setting._id} from='focus' />
 			</Card.Header>
-			<Card.Header className='text-center card-header p-3'>
-				<h1 className='timecard-title-focus'>
-					<i className='fas fa-brain px-4 icon-focus-brain' />Focus<i className='fas fa-brain px-4 icon-focus-brain' />
+			<Card.Header className='text-center screen-header'>
+				<h1 className='screen-title title-focus'>
+					<i className='fas fa-brain px-3 icon-focus-brain' />Focus<i className='fas fa-brain px-3 icon-focus-brain' />
 				</h1>
 			</Card.Header>				
-			<Card.Body className='p-4'>
+			<Card.Body className='timer-wrapper'>
 				<h1 className='timer text-center'>{intervalTime}</h1>
-				<h2 className='text-center'>minutes</h2>
+				<h2 className='timer-label text-center'>minutes</h2>
 			</Card.Body>
 			<Card.Body className='px-5 py-3 text-center'>
-				<div style={{ width : '80%', marginLeft: 'auto', marginRight: 'auto'}}>
+				<div className='prog-wrapper' style={{ width : '80%', marginLeft: 'auto', marginRight: 'auto'}}>
 				<ProgressBar
 					className='progress-bar-secondary progress-bar-striped progress-bar-animated'
 					now= {barLgth}
@@ -144,32 +145,34 @@ const FocusScreen = ({match}) => {
 				/>	
 				</div>	
 			</Card.Body>
-			<Tracker totalCompleted={setting.focusIntvlCt} roundTracker={setting.focusRoundCt} intervalsGoal={setting.focusIntvlGoal}/>	<Card.Footer className='p-3 text-center'>
+			<Tracker totalCompleted={setting.focusIntvlCt} roundTracker={setting.focusRoundCt} intervalsGoal={setting.focusIntvlGoal}/>	
+			<Card.Footer className='p-3 text-center'>
 				<Button
 					type='button'
-					className='btn btn-success mr-3'
+					className='controls btn-play'
 					onClick={() => setPause(false)}
 				>
 					<i className='fas fa-play' />
 				</Button>
 				<Button
 					type='button'
-					className='btn btn-secondary mr-3'
+					className='controls btn-pause'
 					onClick={() => setPause(!pause)}
 				>
 					<i className='fas fa-pause' />
 				</Button>
 				<Button
 					type='button'
-					className='btn btn-light mr-3'
+					className='controls btn-reset'
 					onClick={() => resetInterval()}
 				>
 					<i className='fas fa-redo-alt' />
 				</Button>
-				<Button type='button' className='btn btn-danger'>
+				<Button type='button' className='controls btn-quit'>
 					<i className='fas fa-power-off' onClick={() => quit()} />
 				</Button>
-			</Card.Footer>		
+				<Footer className='below-btns-footer'/>
+			</Card.Footer>
 			</>
 			)} 
 		</Card>

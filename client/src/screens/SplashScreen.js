@@ -5,6 +5,7 @@ import { Card, Row, Col } from 'react-bootstrap'
 import { motion } from 'framer-motion'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Footer from '../components/Footer'
 import { listTodaySetting, createSetting } from '../actions/settingActions'
 import { SETTING_CREATE_RESET } from '../constants/settingConstants'
 
@@ -44,9 +45,9 @@ const SplashScreen = () => {
 	// 	[ dispatch ]
 	// )
 
-	//directs user to SettingScreen or FocusScreen contingent upon
-	//existance of (today)setting but allows time for animated
-	//splash to finish first, before redirecting user
+	// directs user to SettingScreen or FocusScreen contingent upon
+	// existance of (today)setting but allows time for animated
+	// splash to finish first, before redirecting user
 	useEffect(
 		() => {
 			if (setting) {
@@ -135,11 +136,7 @@ const SplashScreen = () => {
 						/>
 					</motion.div>
 				</Col>
-				<Card.Footer className='splash-card-footer'>
-					<p className='text-center splash-footer-text'>
-						Copyright &copy; 2021 Fit & Focused
-					</p>
-				</Card.Footer>
+				<Footer className='splash-card-footer light' />
 			</Card.Body>
 		</Card>
 	)}
@@ -148,3 +145,8 @@ const SplashScreen = () => {
 }
 
 export default SplashScreen
+				// <Card.Footer className='splash-card-footer'>
+				// 	<p className='text-center splash-footer-text'>
+				// 		Copyright &copy; 2021 Fit & Focused
+				// 	</p>
+				// </Card.Footer>
