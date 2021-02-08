@@ -1,34 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Card, Row, Col } from 'react-bootstrap'
+import { Card, Col } from 'react-bootstrap'
 import { motion } from 'framer-motion'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
 import Footer from '../components/Footer'
 import { listTodaySetting, createSetting } from '../actions/settingActions'
-import { SETTING_CREATE_RESET } from '../constants/settingConstants'
 
 const SplashScreen = () => {
 	const history = useHistory()
 	const dispatch = useDispatch()
 
 	const settingToday = useSelector((state) => state.settingToday)
-	const { loading, error, setting } = settingToday
+	const { loading, setting } = settingToday
 
 	const settingCreate = useSelector((state) => state.settingCreate)
 	const {
-		loading : loadingCreate,
 		error   : errorCreate,
 		success : successCreate,
 		setting : createdSetting
 	} = settingCreate
-
-
-	//Grabs state resulting from redux dispatch of listSetting()
-	//to access all settings in DB
-	// const settingList = useSelector((state) => state.settingList)
-	// const { loading, error, settings } = settingList
 
 	useEffect(
 		() => {
@@ -36,14 +27,6 @@ const SplashScreen = () => {
 		},
 		[ dispatch ]
 	)
-
-	//This use effect gets list of all setting records in DB via Redux
-	// useEffect(
-	// 	() => {
-	// 		dispatch(listSettings())
-	// 	},
-	// 	[ dispatch ]
-	// )
 
 	// directs user to SettingScreen or FocusScreen contingent upon
 	// existance of (today)setting but allows time for animated
@@ -58,7 +41,6 @@ const SplashScreen = () => {
 					clearTimeout(timer)
 				}
 			} else if (!loading && !setting && !createdSetting) {
-				//dispatch({ type: SETTING_CREATE_RESET })
 				dispatch(createSetting())
 				}
 			
@@ -71,7 +53,7 @@ const SplashScreen = () => {
 					}
 				}
 		},
-		[ dispatch, loading, setting, successCreate, createdSetting ]
+		[ dispatch, loading, setting, successCreate, createdSetting, history ]
 	)
 
 	//Animations
@@ -93,9 +75,7 @@ const SplashScreen = () => {
 
 	return (
 		<>
-		{loadingCreate && <Loader />}
 		{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-		{loading ? (<Loader />) : (
 		<Card className='card border-primary mb-3 splash-card'>
 			<Card.Header className='text-center card-header p-3'>
 				<h1>FitFocus</h1>
@@ -139,14 +119,8 @@ const SplashScreen = () => {
 				<Footer className='splash-card-footer light' />
 			</Card.Body>
 		</Card>
-	)}
 	</>
 	)
 }
 
 export default SplashScreen
-				// <Card.Footer className='splash-card-footer'>
-				// 	<p className='text-center splash-footer-text'>
-				// 		Copyright &copy; 2021 Fit & Focused
-				// 	</p>
-				// </Card.Footer>

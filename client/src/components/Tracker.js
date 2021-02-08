@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, Col } from 'react-bootstrap'
 
 const Tracker = ({ totalCompleted, roundTracker, intervalsGoal }) => {
-	// const [ setting, setSetting ] = useState()
-	// const [ loading, setLoading ] = useState(true)
-
-	// useEffect(() => {
-	// 	setSetting(settings[0])
-
-	// 	// return () => {
-	// 	// 	cleanup
-	// 	// }
-	// }, [])
-
-	// useEffect(() => {
-	// 	setting && setLoading(false)
-	// })
-
 	return (
 		<Card.Body className='p-4 tracking-container'>
 			<Col className='rounds-container float-left'>

@@ -11,12 +11,10 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listSettingDetails, updateSettingRoundCt  } from '../actions/settingActions'
 import { SETTING_UPDATE_ROUNDCT_RESET } from '../constants/settingConstants'
-//import { SETTING_UPDATE_RESET } from '../constants/settingConstants'
 
 
 const LongBreakScreen = ({match}) => {
 	const history = useHistory()
-	let progress
 
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
@@ -27,7 +25,7 @@ const LongBreakScreen = ({match}) => {
 	const { loading, error, setting} = settingDetails
 
 	const settingUpdateRoundCt = useSelector((state) => state.settingUpdateRoundCt)
-	const { loading: loadingRoundCtUpdate, error: errorRoundCtUpdate, success: successRoundCtUpdate, setting: settingRoundCtUpdated} = settingUpdateRoundCt
+	const { loading: loadingRoundCtUpdate, success: successRoundCtUpdate } = settingUpdateRoundCt
 
 	//component level state
 	const [intervalTime, setIntervalTime] = useState()
@@ -35,6 +33,7 @@ const LongBreakScreen = ({match}) => {
 	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(false)
 	const [barLgth, setBarLgth] = useState(0)
+	const [skip, setSkip] = useState(false)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -44,43 +43,27 @@ const LongBreakScreen = ({match}) => {
 	//use application state to set component state
 	useEffect(() => {
 		if (setting._id) {
-			console.log('this ran')
-			console.log(setting.focusRoundCt)
 			setIntervalTime(setting.longBrkIntvlLgth)
-		// 	if (setting._id && setting.focusRoundCt === 3) {
-		// 							console.log('this ran')
-
-		// 	console.log(setting.focusRoundCt)
-		// 	dispatch(updateSetting({
-		// 		_id: setting._id,
-		// 		focusRoundCt: 0,
-		// 	}))
-		// }
 		}
-	}, [setting._id])
+	}, [setting._id, setting.longBrkIntvlLgth ])
 
 	//use application state to set component state value for prog bar length
 	useEffect(() => {
 		if (setting && intervalRef.current) {
-			progress = Math.floor(((setting.longBrkIntvlLgth-intervalRef.current)/setting.longBrkIntvlLgth) * 100)
-			console.log(intervalRef.current, intervalTime)
+			const progress = Math.floor(((setting.longBrkIntvlLgth-intervalRef.current)/setting.longBrkIntvlLgth) * 100)
 			setBarLgth(progress)
 		}
-		
 	}, [intervalRef.current, setting])
 
 	//Timer 
 	useEffect(
 		() => {
-
 			let interval = null
 			if (!loading && !loadingRoundCtUpdate && !pause && intervalTime > 0) {
-
 				interval = setInterval(() => {
 					setIntervalTime((minutes) => minutes - 1)
 				}, 1000)
 				//60000 is one minute so currently set 1sec: 1min
-				//? get progress bar animation in here ?
 			} 			
 			return () => {
 				clearInterval(interval)
@@ -91,7 +74,12 @@ const LongBreakScreen = ({match}) => {
 
 //Update focusRoundCt in app state
 	useEffect(() => {
-		if (
+		if (skip) {
+			dispatch(updateSettingRoundCt({
+			 	_id: setting._id,
+				 focusRoundCt: 0,
+			}))
+		} else if (
 			!loading &&
 			!pause &&
 			!successRoundCtUpdate &&
@@ -103,7 +91,7 @@ const LongBreakScreen = ({match}) => {
 				 focusRoundCt: 0,
 			 }))
 			}
-	}, [intervalTime, dispatch])
+	}, [skip, intervalTime, dispatch, loading, loadingRoundCtUpdate, pause, setting._id, successRoundCtUpdate, ])
 
 //send user back to focus after focusRoundCt updated
 	useEffect(() => {
@@ -113,24 +101,27 @@ const LongBreakScreen = ({match}) => {
 			history.push(`/focus/${setting._id}`, {from: 'break'})
 		}
 		 
-	}, [successRoundCtUpdate])
+	}, [successRoundCtUpdate, dispatch, history, loading, loadingRoundCtUpdate, playTransition, setting._id])
 
 	//Button controls
-	 const resetInterval = () => {
+	const resetInterval = () => {
 		setPause(true)
 		window.location.reload()
 	}
 	const skipBreak = () => {
+		setSkip(true)
+		const timer = setTimeout(() => {
 		history.push(`/focus/${setting._id}`, {from: 'break'})
+			}, 500)
+		return () => clearTimeout(timer)
 	}
-	 const quit = () => {
+	const quit = () => {
 		 history.push(`/reportcard/${setting._id}`)
-	 }
+	}
 
 	return (
 				<>
 	 	{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
-
 		<Card className='card card-longbreak border-secondary m-4'>
 			<Card.Header className='text-center card-header p-3'>
 				<NavCard id={setting._id} from='longBreak' />

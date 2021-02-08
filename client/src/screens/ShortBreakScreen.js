@@ -7,16 +7,13 @@ import NavCard from '../components/NavCard'
 import Footer from '../components/Footer'
 import transitionSfx from '../sounds/transition.mp3'
 import minuteSfx from '../sounds/minuteAlert.mp3'
-//import exercises from '../exercises'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import ExerciseCard from '../components/ExerciseCard'
 import { listSettingDetails, updateSettingExerciseCt } from '../actions/settingActions'
 import { listExercises } from '../actions/exerciseActions'
 import { SETTING_UPDATE_EXERCISECT_RESET } from '../constants/settingConstants'
 
 const ShortBreakScreen = ({match}) => {
-	const pathname = window.location.pathname
 	const history = useHistory()
 	const randomIndex = Math.floor(Math.random() * 52)
 	
@@ -27,10 +24,10 @@ const ShortBreakScreen = ({match}) => {
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
 	const settingDetails = useSelector((state) => state.settingDetails)
-	const { loading, error, success, setting} = settingDetails
+	const { loading, error, setting} = settingDetails
 
 	const settingUpdateExerciseCt = useSelector((state) => state.settingUpdateExerciseCt)
-	const { loading: loadingExerciseCtUpdate, error: errorExerciseCtUpdate, success: successExerciseCtUpdate, setting: settingExerciseCtUpdated} = settingUpdateExerciseCt
+	const { loading: loadingExerciseCtUpdate, success: successExerciseCtUpdate } = settingUpdateExerciseCt
 
 	const exerciseList = useSelector((state) => state.exerciseList)
 	const { loading: loadingExercises, error: errorExercises, exercises} = exerciseList
@@ -40,14 +37,9 @@ const ShortBreakScreen = ({match}) => {
 	//component level state
 	const [intervalTime, setIntervalTime] = useState()
 	const [pause, setPause] = useState(false)
-	//const [randomizedExercises, setRandomizedExercises] = useState([])
 	const [exerciseIndex, setExerciseIndex] = useState(randomIndex)
 	const [exercise, setExercise] = useState()
-	//const [randomized, setRandomized] = useState(false)
 
-	// //Redux get exercises 1x on initial load only
-	// useEffect(() => {
-	// }, [dispatch])
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -59,12 +51,12 @@ const ShortBreakScreen = ({match}) => {
 	useEffect(() => {
 		if (setting._id) {
 			setIntervalTime(setting.shortBrkIntvlLgth)
+
 		} 
-	}, [setting._id])
+	}, [setting._id, setting.shortBrkIntvlLgth])
 
 	useEffect(() => {
 		if (exercises){
-			console.log('exercises exist so setRandomized should run now')
 			const randomExercise = exercises[exerciseIndex]
 			setExercise(randomExercise)
 		}
@@ -85,7 +77,7 @@ const ShortBreakScreen = ({match}) => {
 				clearInterval(interval)
 			}
 		},
-		[ loading, pause, intervalTime]
+		[ loading, pause, intervalTime, playMinuteAlert]
 	) 
 //Update app state setting for shortBreak.completedExercise 
 	useEffect(() => {
@@ -101,7 +93,7 @@ const ShortBreakScreen = ({match}) => {
 				exerciseBrkCt: setting.exerciseBrkCt + 1
 			}))
 		} 
-		}, [loading, pause, intervalTime])
+		}, [loading, pause, intervalTime, dispatch, loadingExerciseCtUpdate, setting._id, setting.exerciseBrkCt, successExerciseCtUpdate])
 
 //send user back to focus after exerciseCt updated
 	useEffect(() => {
@@ -110,7 +102,7 @@ const ShortBreakScreen = ({match}) => {
 			playTransition()
 			history.push(`/focus/${setting._id}`, {from: 'break'})
 		}		
-	}, [successExerciseCtUpdate])
+	}, [successExerciseCtUpdate, history, playTransition, dispatch, setting._id])
 
 	//Button controls
 	const handleLazyBreak = () => {
@@ -131,7 +123,7 @@ const ShortBreakScreen = ({match}) => {
 
 	return (
 		<>
-		{loading || !intervalTime || loadingExercises ? <Loader /> : error ||errorExerciseCtUpdate ? <Message variant='danger'>{error}</Message> : (
+		{loading || !intervalTime || loadingExercises ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
 		<Card className='card card-shortbreak text-white bg-success m-4'>
 			<Card.Header className='text-center card-header p-3'>
 				<NavCard id={setting._id} from='shortBreak'/>

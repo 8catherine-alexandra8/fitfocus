@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
-import Footer from './components/Footer'
 import SplashScreen from './screens/SplashScreen'
 //import SettingsCreateScreen from './screens/SettingsCreateScreen'
 import SettingsEditScreen from './screens/SettingsEditScreen'
@@ -12,7 +11,6 @@ import LongBreakScreen from './screens/LongBreakScreen'
 import ReportCardScreen from './screens/ReportCardScreen'
 
 const App = () => {
-	const pathname = window.location.pathname
 	return (
 		<Router>
 			<main>

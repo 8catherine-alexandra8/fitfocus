@@ -11,16 +11,11 @@ import {
 	listSettingDetails,
 	updateSettingTargets
 } from '../actions/settingActions'
-import {
-	SETTING_UPDATE_TARGETS_RESET,
-	SETTING_CREATE_RESET
-} from '../constants/settingConstants'
 
 const SettingsEditScreen = ({ match }) => {
 	const history = useHistory()
 	const settingId = match.params.id
 	const source = history.location.state.from
-	console.log(source)
 
 	//component level state
 	const [ focusInterval, setFocusInterval ] = useState(25)
@@ -37,25 +32,21 @@ const SettingsEditScreen = ({ match }) => {
 		(state) => state.settingUpdateTargets
 	)
 	const {
-		loading : loadingUpdate,
 		error   : errorUpdate,
 		success : successUpdate,
-		setting : settingUpdated
 	} = settingUpdateTargets
 
 	//Redux get setting that has _id matching id in url
 	useEffect(
 		() => {
 			if (successUpdate) {
-				//dispatch({ type: SETTING_UPDATE_TARGETS_RESET })
-				//dispatch({ type: SETTING_CREATE_RESET })
 				dispatch(listSettingDetails(settingId))
 			}
 		},
-		[ dispatch, history, successUpdate, success ]
+		[ dispatch, history, successUpdate, success, settingId ]
 	)
 
-	const goToFocus = () => {
+	const goToFocusOrSource = () => {
 		if (source !== 'splash') {
 			const timer = setTimeout(() => {
 				history.push(`/${source}/${settingId}`, { from: 'settings' })
@@ -80,18 +71,19 @@ const SettingsEditScreen = ({ match }) => {
 				focusIntvlGoal    : focusGoal
 			})
 		)
-		goToFocus()
+		goToFocusOrSource()
 	}
 
 	return (
-		<FormContainer>
-			{(loadingUpdate || successUpdate) && <Loader />}
+		<>
+		{/* {loadingUpdate && <Loader />} */}
 			{errorUpdate && <Message variant='danger'>{error}</Message>}
 			{loading ? (
 				<Loader />
 			) : error ? (
 				<Message variant='danger'>{error}</Message>
 			) : (
+		<FormContainer>
 				<Card className='card card-settings text-white bg-secondary m-4'>
 					<Card.Header className='text-center card-header'>
 						<NavCard />
@@ -188,8 +180,9 @@ const SettingsEditScreen = ({ match }) => {
 					</Form>
 					<Footer />
 				</Card>
-			)}
 		</FormContainer>
+		)}
+		</>
 	)
 }
 

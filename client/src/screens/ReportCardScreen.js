@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, ProgressBar } from 'react-bootstrap'
 import NavCard from '../components/NavCard'
@@ -24,7 +24,7 @@ const ReportCardScreen = ({ match }) => {
 		() => {
 			dispatch(listSettingDetails(match.params.id))
 		},
-		[ dispatch ]
+		[ dispatch, match.params.id ]
 	)
 
 	//use application state to set component state value for interval

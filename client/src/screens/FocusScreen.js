@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, ProgressBar, Button, Navbar, Container, Nav } from 'react-bootstrap'
+import { Card, ProgressBar, Button } from 'react-bootstrap'
 import useSound from 'use-sound'
 import NavCard from '../components/NavCard'
 import Footer from '../components/Footer'
@@ -16,8 +16,7 @@ import { SETTING_UPDATE_FOCUSCT_RESET } from '../constants/settingConstants'
 const FocusScreen = ({match}) => {
 	const history = useHistory()
 	const interval = useRef(null)
-	let progress
-	//const source = (window.location.pathname).split('/')[1]
+	//let progress
 
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
@@ -36,15 +35,12 @@ const FocusScreen = ({match}) => {
 	const intervalRef = useRef(intervalTime)
 	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(true)
-	// const [percentProgress, setPercentProgress] = useState(0)
-	// const progressRef = useRef(percentProgress)
-	// progressRef.current = percentProgress
 	const [barLgth, setBarLgth] = useState(0)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
 		dispatch(listSettingDetails(match.params.id))
-	}, [dispatch])
+	}, [dispatch, match.params.id])
 
 	//use application state to set component state value for interval
 	useEffect(() => {
@@ -54,17 +50,16 @@ const FocusScreen = ({match}) => {
 				setPause(false)
 			}
 		}
-	}, [success, history, successUpdate])
+	}, [success, history, successUpdate, setting])
 
 	//use application state to set component state value for prog bar length
 	useEffect(() => {
 		if (setting && intervalRef.current) {
-			progress = Math.floor(((setting.focusIntvlLgth-intervalRef.current)/setting.focusIntvlLgth) * 100)
-			console.log(intervalRef.current, intervalTime)
-			setBarLgth(progress)
+			const progress = Math.floor(((setting.focusIntvlLgth-intervalRef.current)/setting.focusIntvlLgth) * 100)
+			setBarLgth(progress)						
 		}
 		
-	}, [intervalRef.current, setting])
+	}, [setting, intervalRef.current])
 
 	//Timer 
 	useEffect(
@@ -80,12 +75,11 @@ const FocusScreen = ({match}) => {
 			}else if (pause && intervalRef.current !== 0) {
 				clearInterval(interval.current)
 			}
-			 
 			return () => {
 				clearInterval(interval.current)
 			}
 		},
-		[ loading, pause ]
+		[ loading, pause, intervalRef.current ]
 	) 
 
 	//Update focusRoundCt and focusIntvlCt and direct user to 
@@ -108,8 +102,7 @@ const FocusScreen = ({match}) => {
 			playLongBreakAlert()
 			history.push(`/longbreak/${setting._id}`)
 		}
-		
-	}, [loading, pause, dispatch, successUpdate, intervalTime, settingUpdated, loadingUpdate])
+	}, [loading, pause, dispatch, successUpdate, intervalTime, settingUpdated, loadingUpdate, history, playLongBreakAlert, playTransition, setting._id, setting.focusIntvlCt, setting.focusRoundCt])
 
 	//Button controls
 	 const resetInterval = () => {
@@ -122,7 +115,7 @@ const FocusScreen = ({match}) => {
 	return (
 		
 		<Card className='card card-focus text-white bg-primary m-4'>
-			{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : success && (
+			{loading ? <Loader /> : error || errorUpdate ? <Message variant='danger'>{error}</Message> : success && (
 				<>
 			<Card.Header className='p-3 text-center card-header'>
 				<NavCard id={setting._id} from='focus' />
@@ -149,26 +142,26 @@ const FocusScreen = ({match}) => {
 			<Card.Footer className='p-3 text-center'>
 				<Button
 					type='button'
-					className='controls btn-play'
+					className='controls btn btn-success'
 					onClick={() => setPause(false)}
 				>
 					<i className='fas fa-play' />
 				</Button>
 				<Button
 					type='button'
-					className='controls btn-pause'
+					className='controls btn btn-secondary'
 					onClick={() => setPause(!pause)}
 				>
 					<i className='fas fa-pause' />
 				</Button>
 				<Button
 					type='button'
-					className='controls btn-reset'
+					className='controls btn btn-light'
 					onClick={() => resetInterval()}
 				>
 					<i className='fas fa-redo-alt' />
 				</Button>
-				<Button type='button' className='controls btn-quit'>
+				<Button type='button' className='controls btn btn-danger'>
 					<i className='fas fa-power-off' onClick={() => quit()} />
 				</Button>
 				<Footer className='below-btns-footer'/>
@@ -181,13 +174,3 @@ const FocusScreen = ({match}) => {
 
 export default FocusScreen
 
-				{/* <Navbar bg='dark' variant='dark' className='navbar'>
-					<Container>
-						<Navbar.Brand>FitFocus</Navbar.Brand>
-						<Nav className='ml-auto'>
-							<Link to={`/settings/${setting._id}/edit`}>
-								<i className='fas fa-cog icon-nav' />
-							</Link>
-						</Nav>
-					</Container>
-				</Navbar> */}
