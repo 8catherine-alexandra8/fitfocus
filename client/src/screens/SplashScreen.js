@@ -16,8 +16,6 @@ const SplashScreen = () => {
 	const settingToday = useSelector((state) => state.settingToday)
 	const { loading, setting } = settingToday
 
-	//create new setting if no setting already for today's
-	//date and user's ip
 	const settingCreate = useSelector((state) => state.settingCreate)
 	const {
 		error   : errorCreate,
@@ -32,6 +30,7 @@ const SplashScreen = () => {
 		},
 		[ dispatch ]
 	)
+
 
 	// directs user to SettingScreen or FocusScreen contingent upon
 	// existance of (today)setting but allows time for animated
