@@ -5,8 +5,8 @@ const settingSchema = mongoose.Schema(
 		date              : {
 			type : String
 		},
-		pause             : {
-			type : Boolean
+		userIp            : {
+			type : String
 		},
 		focusIntvlLgth    : {
 			type    : Number,
@@ -25,9 +25,6 @@ const settingSchema = mongoose.Schema(
 		shortBrkIntvlLgth : {
 			type    : Number,
 			default : 5
-		},
-		exerciseBrk       : {
-			type : Boolean
 		},
 		exerciseBrkCt     : {
 			type : Number

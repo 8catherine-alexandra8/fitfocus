@@ -13,9 +13,14 @@ import { listSettingDetails, updateSettingExerciseCt } from '../actions/settingA
 import { listExercises } from '../actions/exerciseActions'
 import { SETTING_UPDATE_EXERCISECT_RESET } from '../constants/settingConstants'
 
-const ShortBreakScreen = ({match}) => {
+const ShortBreakScreen = ({match, location}) => {
 	const history = useHistory()
 	const randomIndex = Math.floor(Math.random() * 52)
+	//passed from SettingsEdit if/when user is redirected
+	//to this screen after editing settings 
+	//mid-interval
+	const timeLeft= location.search.split('=')[1] * 1
+
 	
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
@@ -23,6 +28,7 @@ const ShortBreakScreen = ({match}) => {
 
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
+	
 	const settingDetails = useSelector((state) => state.settingDetails)
 	const { loading, error, setting} = settingDetails
 
@@ -32,14 +38,12 @@ const ShortBreakScreen = ({match}) => {
 	const exerciseList = useSelector((state) => state.exerciseList)
 	const { loading: loadingExercises, error: errorExercises, exercises} = exerciseList
 
-
-
 	//component level state
 	const [intervalTime, setIntervalTime] = useState()
 	const [pause, setPause] = useState(false)
 	const [exerciseIndex, setExerciseIndex] = useState(randomIndex)
 	const [exercise, setExercise] = useState()
-
+	const [timeLeftPostSettingsEdit] = useState(timeLeft)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -49,11 +53,13 @@ const ShortBreakScreen = ({match}) => {
 
 	//use application state to set component state
 	useEffect(() => {
-		if (setting._id) {
+		if (timeLeftPostSettingsEdit) {
+			setIntervalTime(timeLeftPostSettingsEdit)
+		}
+		else if (setting._id) {
 			setIntervalTime(setting.shortBrkIntvlLgth)
-
 		} 
-	}, [setting._id, setting.shortBrkIntvlLgth])
+	}, [setting._id, setting.shortBrkIntvlLgth, timeLeftPostSettingsEdit])
 
 	useEffect(() => {
 		if (exercises){
@@ -70,8 +76,8 @@ const ShortBreakScreen = ({match}) => {
 				playMinuteAlert()
 				interval = setInterval(() => {
 					setIntervalTime((minutes) => minutes - 1)
-				}, 1000)
-				//60000 is one minute so currently set 1sec: 1min
+				}, 10000)
+				//60000 is one minute so currently set 10sec: 1min
 			} 			
 			return () => {
 				clearInterval(interval)
@@ -86,7 +92,7 @@ const ShortBreakScreen = ({match}) => {
 			!pause &&
 			!successExerciseCtUpdate &&
 			!loadingExerciseCtUpdate && 
-			intervalTime === 0
+			intervalTime <= 0
 		) {
 			dispatch(updateSettingExerciseCt({
 				_id: setting._id,
@@ -106,9 +112,8 @@ const ShortBreakScreen = ({match}) => {
 
 	//Button controls
 	const handleLazyBreak = () => {
-		history.push(`/lazybreak/${setting._id}?timeLeft=${intervalTime}`)
+		history.push(`/lazybreak/${setting._id}?timeLeft=${intervalTime}`, { from: 'shortbreak' })
 	}
-
 	 const resetInterval = () => {
 		setPause(true)
 		window.location.reload()
@@ -126,7 +131,9 @@ const ShortBreakScreen = ({match}) => {
 		{loading || !intervalTime || loadingExercises ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
 		<Card className='card card-shortbreak text-white bg-success m-4'>
 			<Card.Header className='text-center card-header p-3'>
-				<NavCard id={setting._id} from='shortBreak'/>
+				<NavCard id={setting._id} from='shortbreak' 			intvlLgth={setting.shortBrkIntvlLgth}
+					timeUsed={setting.shortBrkIntvlLgth - intervalTime}
+				/>
 			</Card.Header>
 			<Card.Header className='text-center card-header p-3'>
 				<h1 className='screen-title'>

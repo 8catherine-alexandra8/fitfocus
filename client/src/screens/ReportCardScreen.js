@@ -11,6 +11,7 @@ const ReportCardScreen = ({ match }) => {
 
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
+	
 	const settingDetails = useSelector((state) => state.settingDetails)
 	const { loading, error, success, setting } = settingDetails
 
@@ -27,7 +28,8 @@ const ReportCardScreen = ({ match }) => {
 		[ dispatch, match.params.id ]
 	)
 
-	//use application state to set component state value for interval
+	//use application state to set component state value for 
+	//feedback totals
 	useEffect(
 		() => {
 			if (setting) {

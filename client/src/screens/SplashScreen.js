@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
@@ -9,11 +9,15 @@ import { listTodaySetting, createSetting } from '../actions/settingActions'
 
 const SplashScreen = () => {
 	const history = useHistory()
+	
+	//Redux dispatch and app state access
 	const dispatch = useDispatch()
 
 	const settingToday = useSelector((state) => state.settingToday)
 	const { loading, setting } = settingToday
 
+	//create new setting if no setting already for today's
+	//date and user's ip
 	const settingCreate = useSelector((state) => state.settingCreate)
 	const {
 		error   : errorCreate,
@@ -21,6 +25,7 @@ const SplashScreen = () => {
 		setting : createdSetting
 	} = settingCreate
 
+//Get setting with today's date and user's ip
 	useEffect(
 		() => {
 			dispatch(listTodaySetting())
@@ -33,7 +38,7 @@ const SplashScreen = () => {
 	// splash to finish first, before redirecting user
 	useEffect(
 		() => {
-			if (setting) {
+			if (setting && setting.userIp) {
 				const timer = setTimeout(() => {
 					history.push(`/focus/${setting._id}`, { from: 'splash' })
 				}, 6000)

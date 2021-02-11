@@ -13,10 +13,15 @@ import Loader from '../components/Loader'
 import { listSettingDetails, updateSettingFocusCt } from '../actions/settingActions'
 import { SETTING_UPDATE_FOCUSCT_RESET } from '../constants/settingConstants'
 
-const FocusScreen = ({match}) => {
+const FocusScreen = ({match, location}) => {
 	const history = useHistory()
 	const interval = useRef(null)
-	//let progress
+	const progInterval = useRef(null)
+	// //passed from SettingsEdit if/when user is redirected
+	//to this screen after editing settings 
+	//mid-interval
+	const timeLeft= location.search.split('=')[1] * 1
+
 
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
@@ -24,6 +29,7 @@ const FocusScreen = ({match}) => {
 
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
+
 	const settingDetails = useSelector((state) => state.settingDetails)
 	const { loading, error, success, setting} = settingDetails
 
@@ -32,10 +38,10 @@ const FocusScreen = ({match}) => {
 
 	//component level state
 	const [intervalTime, setIntervalTime] = useState()
-	const intervalRef = useRef(intervalTime)
-	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(true)
 	const [barLgth, setBarLgth] = useState(0)
+	const [timeLeftPostSettingsEdit] = useState(timeLeft)
+	const [progTime, setProgTime] = useState(0)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -44,48 +50,67 @@ const FocusScreen = ({match}) => {
 
 	//use application state to set component state value for interval
 	useEffect(() => {
-		if (setting || success || successUpdate) {
+		if (timeLeftPostSettingsEdit ) {
+			setIntervalTime(timeLeftPostSettingsEdit)
+			setProgTime((timeLeftPostSettingsEdit + .4) * 60)
+			setPause(false)
+		}
+		else if (setting || success || successUpdate) {
 			setIntervalTime(setting.focusIntvlLgth)
+			setProgTime(setting.focusIntvlLgth * 60)
 			if(history.location.state && history.location.state.from === 'break') {
 				setPause(false)
 			}
 		}
-	}, [success, history, successUpdate, setting])
+	}, [timeLeftPostSettingsEdit, success, history, successUpdate, setting])
 
-	//use application state to set component state value for prog bar length
+	//progress bar interval
 	useEffect(() => {
-		if (setting && intervalRef.current) {
-			const progress = Math.floor(((setting.focusIntvlLgth-intervalRef.current)/setting.focusIntvlLgth) * 100)
-			setBarLgth(progress)						
-		}
-		
-	}, [setting, intervalRef.current])
+			if (!loading && !pause && progTime > 0) {
+				let increment = 100 / progTime
+				progInterval.current = setInterval(() => {
+					setBarLgth((prevVal) => {
+						const newValue = prevVal + increment
+						if (newValue === 100) {
+							clearInterval(progInterval.current)
+						} 
+						return newValue
+						})
+						}, 16.7)	
+						//Timer set 1sec:1min so progbar set to 16.7ms:1second	
+			} else if (pause) {
+				clearInterval(progInterval.current)
+			}
+			return () => {
+				clearInterval(progInterval.current)
+			}							
+	}, [loading, pause, progTime])
 
 	//Timer 
 	useEffect(
 		() => {
-			if (!loading && !pause && intervalRef.current > 0) {
+			if (!loading && !pause && intervalTime > 0) {
 				interval.current = setInterval(() => {
 					setIntervalTime((minutes) => minutes - 1)
-					if (intervalRef.current <= 0) {
+					if (intervalTime <= 0) {
 						clearInterval(interval.current)
 					}
 				}, 1000) 
 				//60000 is one minute so currently set 1sec: 1min
-			}else if (pause && intervalRef.current !== 0) {
+			}else if (pause && intervalTime !== 0) {
 				clearInterval(interval.current)
 			}
 			return () => {
 				clearInterval(interval.current)
 			}
 		},
-		[ loading, pause, intervalRef.current ]
+		[ loading, pause, intervalTime ]
 	) 
 
 	//Update focusRoundCt and focusIntvlCt and direct user to 
 	//shortBreak or longBreak depending on RoundCt
 	useEffect(() => {
-		if (!loading && !pause && !successUpdate && !loadingUpdate && intervalTime === 0) {
+		if (!loading && !pause && !successUpdate && !loadingUpdate && intervalTime <= 0) {
 			dispatch(updateSettingFocusCt({
 				_id: setting._id,
 				focusRoundCt: setting.focusRoundCt + 1,
@@ -94,7 +119,6 @@ const FocusScreen = ({match}) => {
 		}
 		if (successUpdate && settingUpdated.focusRoundCt <=3) {
 			dispatch({ type: SETTING_UPDATE_FOCUSCT_RESET })
-			playTransition()
 			history.push(`/shortbreak/${setting._id}`)
 		}
 		if (successUpdate && settingUpdated.focusRoundCt === 4) {
@@ -118,7 +142,10 @@ const FocusScreen = ({match}) => {
 			{loading ? <Loader /> : error || errorUpdate ? <Message variant='danger'>{error}</Message> : success && (
 				<>
 			<Card.Header className='p-3 text-center card-header'>
-				<NavCard id={setting._id} from='focus' />
+				<NavCard id={setting._id} from='focus' 				
+					intvlLgth={setting.focusIntvlLgth}
+					timeUsed={setting.focusIntvlLgth - intervalTime}
+ 				/>
 			</Card.Header>
 			<Card.Header className='text-center screen-header'>
 				<h1 className='screen-title title-focus'>

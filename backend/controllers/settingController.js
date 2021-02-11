@@ -24,11 +24,15 @@ const getSettingById = asyncHandler(async (req, res) => {
 	}
 })
 
-// @desc   Fetch today's setting
+// @desc   Fetch today's setting for current user
 // @route  GET /api/todaySetting
 // @access Public
 const getTodaySetting = asyncHandler(async (req, res) => {
-	const todaySetting = await Setting.findOne({ date: today })
+	const request_ip = req.ip
+	const todaySetting = await Setting.findOne({
+		date   : today,
+		userIp : request_ip
+	})
 	if (todaySetting) {
 		res.json(todaySetting)
 	} else {
@@ -37,19 +41,19 @@ const getTodaySetting = asyncHandler(async (req, res) => {
 	}
 })
 
-// @desc   Create a setting
+// @desc   Create a setting for user @ current ip
 // @route  POST /api/settings
 // @access Public
 const createSetting = asyncHandler(async (req, res) => {
+	const request_ip = req.ip
 	const setting = new Setting({
 		date              : today,
-		//pause             : true,
+		userIp            : request_ip,
 		focusIntvlLgth    : 25,
 		focusIntvlCt      : 0,
 		focusRoundCt      : 0,
 		focusIntvlGoal    : 8,
 		shortBrkIntvlLgth : 5,
-		//exerciseBrk       : true,
 		exerciseBrkCt     : 0,
 		longBrkIntvlLgth  : 25
 	})
@@ -57,48 +61,8 @@ const createSetting = asyncHandler(async (req, res) => {
 	res.status(201).json(createdSetting)
 })
 
-// // @desc   Update a setting
-// // @route  PUT /api/settings/:id
-// // @access Public
-// const updateSetting = asyncHandler(async (req, res) => {
-// 	const {
-// 		pause,
-// 		focusIntvlLgth,
-// 		focusIntvlCt,
-// 		focusRoundCt,
-// 		focusIntvlGoal,
-// 		shortBrkIntvlLgth,
-// 		exerciseBrk,
-// 		exerciseBrkCt,
-// 		longBrkIntvlLgth
-// 	} = req.body
-// 	const setting = await Setting.findById(req.params.id)
-
-// 	if (setting) {
-// 		if (setting) {
-// 			setting.pause = pause || setting.pause
-// 			setting.focusIntvlLgth = focusIntvlLgth || setting.focusIntvlLgth
-// 			setting.focusIntvlCt = focusIntvlCt || setting.focusIntvlCt
-// 			setting.focusRoundCt = focusRoundCt
-// 			setting.focusIntvlGoal = focusIntvlGoal || setting.focusIntvlGoal
-// 			setting.shortBrkIntvlLgth =
-// 				shortBrkIntvlLgth || setting.shortBrkIntvlLgth
-// 			setting.exerciseBrk = exerciseBrk || setting.exerciseBrk
-// 			setting.exerciseBrkCt = exerciseBrkCt || setting.exerciseBrkCt
-// 			setting.longBrkIntvlLgth =
-// 				longBrkIntvlLgth || setting.longBrkIntvlLgth
-// 		}
-// 		//|| setting.focusRoundCt
-// 		const updatedSetting = await setting.save()
-// 		res.json(updatedSetting)
-// 	} else {
-// 		res.status(404)
-// 		throw new Error('Setting not found')
-// 	}
-// })
-
 // @desc   Update a setting's targets
-// @route  PUT /api/settings/:id
+// @route  PATCH /api/settings/:id
 // @access Public
 const updateSettingTargets = asyncHandler(async (req, res) => {
 	const {
@@ -128,7 +92,7 @@ const updateSettingTargets = asyncHandler(async (req, res) => {
 })
 
 // @desc   Update focus counts
-// @route  PUT /api/settings/:id
+// @route  PATCH /api/settings/:id
 // @access Public
 const updateSettingFocusCt = asyncHandler(async (req, res) => {
 	const { focusIntvlCt, focusRoundCt } = req.body
@@ -151,7 +115,7 @@ const updateSettingFocusCt = asyncHandler(async (req, res) => {
 })
 
 // @desc   Update round count
-// @route  PUT /api/settings/:id
+// @route  PATCH /api/settings/:id
 // @access Public
 const updateSettingRoundCt = asyncHandler(async (req, res) => {
 	const { focusRoundCt } = req.body
@@ -173,7 +137,7 @@ const updateSettingRoundCt = asyncHandler(async (req, res) => {
 })
 
 // @desc   Update exercise count
-// @route  PUT /api/settings/:id
+// @route  PATCH /api/settings/:id
 // @access Public
 const updateSettingExerciseCt = asyncHandler(async (req, res) => {
 	const { exerciseBrkCt } = req.body

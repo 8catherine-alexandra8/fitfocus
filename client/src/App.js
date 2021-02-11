@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import SplashScreen from './screens/SplashScreen'
-//import SettingsCreateScreen from './screens/SettingsCreateScreen'
 import SettingsEditScreen from './screens/SettingsEditScreen'
 import FocusScreen from './screens/FocusScreen'
 import ShortBreakScreen from './screens/ShortBreakScreen'
@@ -16,7 +15,6 @@ const App = () => {
 			<main>
 				<Container fluid>
 					<Route path='/' component={SplashScreen} exact />
-					{/* <Route path='/settings' component={SettingsCreateScreen} exact /> */}
 					<Route
 						path='/settings/:id/edit'
 						component={SettingsEditScreen}

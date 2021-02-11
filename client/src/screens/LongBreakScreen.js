@@ -13,14 +13,20 @@ import { listSettingDetails, updateSettingRoundCt  } from '../actions/settingAct
 import { SETTING_UPDATE_ROUNDCT_RESET } from '../constants/settingConstants'
 
 
-const LongBreakScreen = ({match}) => {
+const LongBreakScreen = ({match, location}) => {
 	const history = useHistory()
+	const progInterval = useRef(null)
+	//passed from SettingsEdit if/when user is redirected
+	//to this screen after editing settings 
+	//mid-interval
+	const timeLeft= location.search.split('=')[1] * 1
 
 	//Sounds
 	const [playTransition] = useSound(transitionSfx, { volume: 0.25 })
 
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
+	
 	const settingDetails = useSelector((state) => state.settingDetails)
 	const { loading, error, setting} = settingDetails
 
@@ -33,7 +39,9 @@ const LongBreakScreen = ({match}) => {
 	intervalRef.current = intervalTime
 	const [pause, setPause] = useState(false)
 	const [barLgth, setBarLgth] = useState(0)
+	const [progTime, setProgTime] = useState(0)
 	const [skip, setSkip] = useState(false)
+	const [timeLeftPostSettingsEdit] = useState(timeLeft)
 
 	//Redux get setting that has _id matching id in url
 	useEffect(() => {
@@ -42,18 +50,37 @@ const LongBreakScreen = ({match}) => {
 
 	//use application state to set component state
 	useEffect(() => {
-		if (setting._id) {
+		if (timeLeftPostSettingsEdit) {
+			setIntervalTime(timeLeftPostSettingsEdit)
+			setProgTime((timeLeftPostSettingsEdit + .4) * 60 )
+		}
+		else if (setting._id) {
 			setIntervalTime(setting.longBrkIntvlLgth)
+			setProgTime(setting.longBrkIntvlLgth * 60)
 		}
-	}, [setting._id, setting.longBrkIntvlLgth ])
+	}, [setting._id, setting.longBrkIntvlLgth, timeLeftPostSettingsEdit ])
 
-	//use application state to set component state value for prog bar length
+	//progress bar interval
 	useEffect(() => {
-		if (setting && intervalRef.current) {
-			const progress = Math.floor(((setting.longBrkIntvlLgth-intervalRef.current)/setting.longBrkIntvlLgth) * 100)
-			setBarLgth(progress)
-		}
-	}, [intervalRef.current, setting])
+			if (!loading && !pause && progTime > 0) {
+				let increment = 100 / progTime
+				progInterval.current = setInterval(() => {
+					setBarLgth((prevVal) => {
+						const newValue = prevVal + increment
+						if (newValue === 100) {
+							clearInterval(progInterval.current)
+						} 
+						return newValue
+						})
+						}, 16.7)	
+			//Timer set 10sec:1min so progbar set to 16.7ms:1second	
+			} else if (pause) {
+				clearInterval(progInterval.current)
+			}
+			return () => {
+				clearInterval(progInterval.current)
+			}							
+	}, [loading, pause, progTime])
 
 	//Timer 
 	useEffect(
@@ -63,7 +90,7 @@ const LongBreakScreen = ({match}) => {
 				interval = setInterval(() => {
 					setIntervalTime((minutes) => minutes - 1)
 				}, 1000)
-				//60000 is one minute so currently set 1sec: 1min
+				//60000ms : 1min, so currently set 1sec : 1min
 			} 			
 			return () => {
 				clearInterval(interval)
@@ -84,7 +111,7 @@ const LongBreakScreen = ({match}) => {
 			!pause &&
 			!successRoundCtUpdate &&
 			!loadingRoundCtUpdate &&
-			intervalTime === 0 
+			intervalTime <= 0 
 		) {
 			 dispatch(updateSettingRoundCt({
 			 	_id: setting._id,
@@ -124,7 +151,9 @@ const LongBreakScreen = ({match}) => {
 	 	{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
 		<Card className='card card-longbreak border-secondary m-4'>
 			<Card.Header className='text-center card-header p-3'>
-				<NavCard id={setting._id} from='longBreak' />
+				<NavCard id={setting._id} from='longbreak' 					intvlLgth={setting.longBrkIntvlLgth}
+						timeUsed={setting.longBrkIntvlLgth - intervalTime}
+ 				/>
 			</Card.Header>
 			<Card.Header className='text-center card-header p-3'>
 				<h1>

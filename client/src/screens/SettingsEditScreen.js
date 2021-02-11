@@ -8,25 +8,29 @@ import Footer from '../components/Footer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
-	listSettingDetails,
 	updateSettingTargets
 } from '../actions/settingActions'
+import { SETTING_UPDATE_TARGETS_RESET } from '../constants/settingConstants'
+
 
 const SettingsEditScreen = ({ match }) => {
 	const history = useHistory()
 	const settingId = match.params.id
 	const source = history.location.state.from
+	const timeUsed = history.location.state.timeUsed
 
 	//component level state
 	const [ focusInterval, setFocusInterval ] = useState(25)
 	const [ shortBreakInterval, setShortBreakInterval ] = useState(5)
 	const [ longBreakInterval, setLongBreakInterval ] = useState(25)
 	const [ focusGoal, setFocusGoal ] = useState(8)
+	const [timeLeftUpdated, setTimeLeftUpdated] = useState()
 
 	//Redux dispatch and state access
 	const dispatch = useDispatch()
+	
 	const settingDetails = useSelector((state) => state.settingDetails)
-	const { loading, error, success, setting } = settingDetails
+	const { loading, error, setting } = settingDetails
 
 	const settingUpdateTargets = useSelector(
 		(state) => state.settingUpdateTargets
@@ -34,31 +38,45 @@ const SettingsEditScreen = ({ match }) => {
 	const {
 		error   : errorUpdate,
 		success : successUpdate,
+		setting: settingUpdated
 	} = settingUpdateTargets
 
-	//Redux get setting that has _id matching id in url
-	useEffect(
-		() => {
-			if (successUpdate) {
-				dispatch(listSettingDetails(settingId))
+	//Get new time left in interval based on from which interval
+	//user navigated to settings, and the new setting for that 
+	//interval, so that when user returns to that interval, the 
+	//appropriate amount of time is left on the clock
+	useEffect(() => {
+		if (successUpdate && settingUpdated._id) {
+			switch(source) {
+				case 'focus':
+					setTimeLeftUpdated(settingUpdated.focusIntvlLgth - timeUsed)
+					break;
+				case 'shortbreak':
+					setTimeLeftUpdated(settingUpdated.shortBrkIntvlLgth - timeUsed)
+					break;
+				case 'lazybreak':
+					setTimeLeftUpdated(settingUpdated.shortBrkIntvlLgth - timeUsed)
+					break;
+				case 'longbreak':
+					setTimeLeftUpdated(settingUpdated.longBrkIntvlLgth - timeUsed)
+					break;
+				default : console.log('splash case')
 			}
-		},
-		[ dispatch, history, successUpdate, success, settingId ]
-	)
-
-	const goToFocusOrSource = () => {
-		if (source !== 'splash') {
-			const timer = setTimeout(() => {
-				history.push(`/${source}/${settingId}`, { from: 'settings' })
-			}, 500)
-			return () => clearTimeout(timer)
-		} else {
-			const timer = setTimeout(() => {
-				history.push(`/focus/${settingId}`, { from: 'settings' })
-			}, 500)
-			return () => clearTimeout(timer)
 		}
-	}
+	}, [successUpdate, settingUpdated, timeLeftUpdated, source, timeUsed])
+
+	//After setting updated redirect user to interval they came
+	//from so they can finish with the possibly updated amount
+	//of time left on the clock
+	useEffect(() => {
+		if (successUpdate && settingUpdated._id && timeLeftUpdated && source !== 'splash' ) {
+			dispatch({ type: SETTING_UPDATE_TARGETS_RESET })
+			history.push(`/${source}/${settingId}?timeLeft=${timeLeftUpdated}`, { from: 'settingsEdit' })
+		} else if (successUpdate && settingUpdated._id && source === 'splash') {
+			history.push(`/focus/${settingId}`, { from: 'settings' })
+		}
+	}, [successUpdate, settingUpdated, timeLeftUpdated, source, timeUsed, dispatch, history, settingId])
+
 
 	const submitHandler = (e) => {
 		e.preventDefault()
@@ -71,12 +89,10 @@ const SettingsEditScreen = ({ match }) => {
 				focusIntvlGoal    : focusGoal
 			})
 		)
-		goToFocusOrSource()
 	}
 
 	return (
 		<>
-		{/* {loadingUpdate && <Loader />} */}
 			{errorUpdate && <Message variant='danger'>{error}</Message>}
 			{loading ? (
 				<Loader />

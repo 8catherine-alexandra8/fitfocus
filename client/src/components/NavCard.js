@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-const NavCard = ({ id, from }) => {
+const NavCard = ({ id, from, timeUsed }) => {
 	return (
 		<Navbar bg='dark' variant='dark' className='navbar'>
 			<Container>
@@ -14,7 +14,10 @@ const NavCard = ({ id, from }) => {
 					<Link
 						to={{
 							pathname : `/settings/${id}/edit`,
-							state    : { from: `${from}` }
+							state    : {
+								from     : `${from}`,
+								timeUsed : `${timeUsed}`
+							}
 						}}
 					>
 						<i className='fas fa-cog icon-nav' />
@@ -26,4 +29,3 @@ const NavCard = ({ id, from }) => {
 }
 
 export default NavCard
-// <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
